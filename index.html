@@ -1948,7 +1948,7 @@ function kbSpeak(text, lang, rate) {
 
       const preferredVoice =
         japaneseVoices.find(v => /premium|enhanced/i.test(v.name)) ||
-        japaneseVoices.find(v => /kyoko|otoya|google japanese/i.test(v.name)) ||
+        japaneseVoices.find(v => /kyoko|otoya|siri suara 2|google japanese/i.test(v.name)) ||
         japaneseVoices[0];
 
       if (preferredVoice) {
