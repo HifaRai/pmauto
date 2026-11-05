@@ -579,6 +579,35 @@ footer {
 }
 
 
+/* Perbaikan tampilan HP */
+@media (max-width: 600px) {
+  .auto-controls {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    width: 100%;
+  }
+
+  .auto-controls button,
+  .auto-settings button,
+  .auto-settings select {
+    box-sizing: border-box;
+    max-width: 100%;
+  }
+
+  .auto-settings {
+    width: 100%;
+    min-width: 0;
+    padding: 14px;
+  }
+
+  button {
+    white-space: normal;
+    overflow-wrap: break-word;
+    min-height: 48px;
+  }
+}
+
   
 </style>
 
