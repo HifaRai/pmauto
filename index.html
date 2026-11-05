@@ -1,3128 +1,1933 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>JFT-Basic Mock Test</title>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<meta name="theme-color" content="#f8f2ff">
+
+<title>Kotoba Bloom | Flashcard Jepang</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap');
 
-* {
-  box-sizing: border-box;
+:root {
+
+  --ink: #493e60;
+
+  --muted: #8d829f;
+
+  --purple: #9679c8;
+
+  --lavender: #eee5ff;
+
+  --pink: #ffe5ef;
+
+  --cream: #fff9ee;
+
+  --mint: #e1f5e9;
+
+  --line: #eee5f5;
+
 }
 
-html,
+* { box-sizing: border-box; }
+
 body {
+
   margin: 0;
-  padding: 0;
-  min-height: 100%;
-}
 
-body {
-  font-family: "Noto Sans JP", Arial, sans-serif;
-  background: linear-gradient(135deg, #f5efff, #eee6ff, #f8f5ff);
-  color: #30283b;
-}
-
-/* =========================
-   SCREEN
-========================= */
-
-.screen {
-  display: none;
   min-height: 100vh;
+
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  color: var(--ink);
+
+  background: linear-gradient(145deg, #fbf7ff, #fff5f7 60%, #fffaf0);
+
 }
 
-.screen.active {
-  display: block;
-}
+button { font: inherit; cursor: pointer; }
 
-/* =========================
-   START
-========================= */
+.app {
 
-#startScreen {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-}
-
-#startScreen.active {
-  display: flex;
-}
-
-.start-card {
   width: 100%;
-  max-width: 620px;
-  background: rgba(255,255,255,.95);
-  border-radius: 28px;
-  padding: 45px;
-  box-shadow: 0 20px 60px rgba(83,60,120,.15);
-  text-align: center;
+
+  max-width: 680px;
+
+  margin: auto;
+
+  padding: 22px 17px 40px;
+
+}
+
+header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  margin-bottom: 23px;
+
 }
 
 .logo {
-  display: inline-block;
-  padding: 8px 18px;
-  border-radius: 30px;
-  background: #e6d9ff;
-  color: #6f4ca5;
-  font-weight: 700;
-  letter-spacing: 1px;
+
+  width: 48px;
+
+  height: 48px;
+
+  display: grid;
+
+  place-items: center;
+
+  border-radius: 17px;
+
+  background: linear-gradient(135deg, #e8dcff, #ffdce9);
+
+  font-size: 25px;
+
 }
 
-.start-card h1 {
-  font-size: 42px;
-  margin: 18px 0 5px;
+h1 {
+
+  font-size: 21px;
+
+  margin: 0;
+
+  letter-spacing: -.6px;
+
 }
 
 .subtitle {
-  color: #756a82;
-  margin-top: 0;
+
+  font-size: 12px;
+
+  color: var(--muted);
+
+  margin-top: 4px;
+
 }
 
-.exam-info {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 30px 0;
+.hero {
+
+  padding: 23px 21px;
+
+  border-radius: 25px;
+
+  background: linear-gradient(120deg, #eee5ff, #ffe7ef, #fff5e5);
+
+  margin-bottom: 22px;
+
 }
 
-.exam-info div {
-  background: #f5f0ff;
-  border-radius: 18px;
-  padding: 18px 10px;
+.eyebrow {
+
+  font-size: 10px;
+
+  letter-spacing: 2px;
+
+  color: #8d73b8;
+
+  font-weight: 800;
+
 }
 
-.exam-info strong {
-  display: block;
+.hero h2 {
+
   font-size: 28px;
-  color: #7653a8;
+
+  line-height: 1.2;
+
+  margin: 10px 0 8px;
+
 }
 
-.exam-info span {
+.hero p {
+
   font-size: 13px;
-  color: #7e738b;
+
+  line-height: 1.6;
+
+  color: #786d8b;
+
+  margin: 0;
+
 }
 
-.notice {
-  text-align: left;
-  background: #faf8ff;
-  border-left: 4px solid #9270c5;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 25px;
-  font-size: 13px;
-  line-height: 1.7;
-}
+.section-title {
 
-.notice p {
-  margin: 8px 0;
-}
-
-/* =========================
-   BUTTON
-========================= */
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  transition: .2s ease;
-}
-
-.primary-btn,
-.secondary-btn {
-  border-radius: 13px;
-  padding: 13px 22px;
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.primary-btn {
-  background: #8060ad;
-  color: white;
-}
-
-.primary-btn:hover {
-  transform: translateY(-2px);
-  background: #6e4d9d;
-}
-
-.secondary-btn {
-  background: #eee7fa;
-  color: #65468d;
-}
-
-.secondary-btn:hover {
-  background: #e3d7f4;
-}
-
-button:disabled {
-  opacity: .4;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* =========================
-   EXAM HEADER
-========================= */
-
-.exam-header {
-  min-height: 82px;
-  background: white;
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
-  padding: 12px 30px;
-  box-shadow: 0 2px 15px rgba(50,30,80,.08);
+
+  justify-content: space-between;
+
+  gap: 8px;
+
+  margin: 23px 2px 12px;
+
 }
 
-.section-name {
-  font-weight: 700;
-  font-size: 19px;
+.section-title h3 {
+
+  margin: 0;
+
+  font-size: 15px;
+
 }
 
-.section-sub {
+.section-title span {
+
+  font-size: 11px;
+
+  color: var(--muted);
+
+}
+
+/* Tombol halaman PDF */
+
+.pages {
+
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 8px;
+
+  margin-bottom: 22px;
+
+}
+
+.page-btn {
+
+  border: 1px solid #ece2f4;
+
+  background: #ffffffc9;
+
+  color: #807294;
+
+  border-radius: 13px;
+
+  min-width: 62px;
+
+  padding: 11px 13px;
+
+  font-size: 13px;
+
+  transition: .2s ease;
+
+}
+
+.page-btn.active {
+
+  background: var(--purple);
+
+  color: white;
+
+  border-color: var(--purple);
+
+  box-shadow: 0 5px 15px #9679c833;
+
+  transform: translateY(-1px);
+
+}
+
+/* Info halaman */
+
+.page-info {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin: 0 3px 12px;
+
   font-size: 12px;
-  color: #8b8195;
-  margin-top: 3px;
+
+  color: var(--muted);
+
 }
 
-.timer-box {
+.page-info strong {
+
+  color: var(--ink);
+
+}
+
+/* Flashcard */
+
+.card-scene {
+
+  perspective: 1200px;
+
+  width: 100%;
+
+}
+
+.card {
+
+  width: 100%;
+
+  min-height: 315px;
+
+  position: relative;
+
+  transform-style: preserve-3d;
+
+  transition: transform .65s cubic-bezier(.2,.75,.2,1);
+
+  cursor: pointer;
+
+}
+
+.card.flipped {
+
+  transform: rotateY(180deg);
+
+}
+
+.face {
+
+  position: absolute;
+
+  inset: 0;
+
+  min-height: 315px;
+
+  padding: 28px 22px;
+
+  border-radius: 27px;
+
+  border: 1px solid #ffffff;
+
+  box-shadow: 0 15px 38px #78629517;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
   text-align: center;
-  background: #f1eaff;
-  border-radius: 14px;
-  padding: 7px 18px;
+
+  backface-visibility: hidden;
+
+  -webkit-backface-visibility: hidden;
+
 }
 
-.timer-box span {
-  display: block;
-  font-size: 9px;
-  color: #88769c;
-  letter-spacing: 1px;
+.front {
+
+  background: radial-gradient(circle at top left, white, transparent 42%),
+
+              linear-gradient(145deg, #eee5ff, #ffe8f0);
+
 }
 
-.timer-box strong {
+.back {
+
+  transform: rotateY(180deg);
+
+  background: radial-gradient(circle at top right, white, transparent 40%),
+
+              linear-gradient(145deg, #e0f5e9, #fff5e7);
+
+}
+
+.card-label {
+
+  font-size: 10px;
+
+  letter-spacing: 2px;
+
+  color: #8d7ba7;
+
+  margin-bottom: 20px;
+
+}
+
+.jp-word {
+
+  font-size: clamp(32px, 8vw, 52px);
+
+  line-height: 1.4;
+
+  font-weight: 750;
+
+  overflow-wrap: anywhere;
+
+}
+
+.reading {
+
   font-size: 21px;
-  color: #65458d;
+
+  color: #598c72;
+
+  margin-bottom: 13px;
+
 }
 
-/* TIMER WARNING */
+.meaning {
 
-.timer-box.warning {
-  background: #fff0f0;
+  font-size: clamp(19px, 5vw, 25px);
+
+  font-weight: 700;
+
+  line-height: 1.45;
+
+  overflow-wrap: anywhere;
+
 }
 
-.timer-box.warning strong {
-  color: #b94c4c;
-}
+.hint {
 
-/* =========================
-   PROGRESS
-========================= */
-
-.progress-wrapper {
-  background: white;
-  padding: 12px 30px 15px;
-}
-
-.progress-text {
   font-size: 12px;
-  color: #766b80;
-  margin-bottom: 8px;
+
+  color: #8f83a1;
+
+  margin-top: 24px;
+
+}
+
+.card-decoration {
+
+  position: absolute;
+
+  font-size: 23px;
+
+  opacity: .7;
+
+}
+
+.top-left { top: 17px; left: 19px; }
+
+.bottom-right { bottom: 16px; right: 20px; }
+
+.actions {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1.2fr 1fr;
+
+  gap: 8px;
+
+  margin-top: 13px;
+
+}
+
+.action-btn {
+
+  border: 1px solid var(--line);
+
+  background: #fff;
+
+  color: #766a89;
+
+  border-radius: 14px;
+
+  padding: 13px 7px;
+
+  font-size: 12px;
+
+  font-weight: 650;
+
+  transition: .15s;
+
+}
+
+.action-btn:active { transform: scale(.97); }
+
+.action-btn.primary {
+
+  background: var(--purple);
+
+  color: white;
+
+  border-color: var(--purple);
+
+}
+
+.progress {
+
+  height: 5px;
+
+  border-radius: 20px;
+
+  background: #eee6f4;
+
+  margin: 18px 2px 0;
+
+  overflow: hidden;
+
 }
 
 .progress-bar {
-  height: 6px;
-  background: #eee8f5;
-  border-radius: 10px;
-  overflow: hidden;
-}
 
-#progressBar {
+  width: 0;
+
   height: 100%;
-  width: 0%;
-  background: #8b6abb;
-  transition: width .3s ease;
+
+  background: linear-gradient(90deg, #b9a2ed, #f0a9c6);
+
+  transition: width .3s;
+
 }
 
-/* =========================
-   EXAM LAYOUT
-========================= */
+.empty {
 
-.exam-container {
-  display: grid;
-  grid-template-columns: 230px minmax(0, 800px);
-  gap: 25px;
-  max-width: 1200px;
-  margin: 25px auto;
-  padding: 0 20px;
-}
-
-/* =========================
-   QUESTION NAV
-========================= */
-
-.question-nav {
-  background: white;
-  border-radius: 20px;
-  padding: 18px;
-  height: fit-content;
-  position: sticky;
-  top: 20px;
-  box-shadow: 0 10px 30px rgba(70,40,100,.08);
-}
-
-.nav-title {
-  font-weight: 700;
-  margin-bottom: 15px;
-}
-
-.nav-section-title {
-  font-size: 10px;
-  color: #8d8298;
-  margin: 13px 0 7px;
-  font-weight: 700;
-}
-
-#questionGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 7px;
-}
-
-.question-number {
-  aspect-ratio: 1;
-  border-radius: 9px;
-  background: #f1edf5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 12px;
-  cursor: pointer;
-  color: #756b7c;
-  transition: .15s;
-}
-
-.question-number:hover {
-  transform: scale(1.05);
-}
-
-.question-number.current {
-  background: #8262ac;
-  color: white;
-  font-weight: 700;
-}
-
-.question-number.answered {
-  background: #dcd0ec;
-  color: #604681;
-}
-
-.question-number.current.answered {
-  background: #8262ac;
-  color: white;
-}
-
-/* =========================
-   QUESTION
-========================= */
-
-.question-area {
-  background: white;
-  border-radius: 23px;
-  padding: 35px;
-  min-height: 500px;
-  box-shadow: 0 10px 30px rgba(70,40,100,.08);
-}
-
-.category-label {
-  display: inline-block;
-  background: #f0e8fa;
-  color: #7956a0;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  margin-bottom: 20px;
-}
-
-.question-context {
-  white-space: pre-line;
-  background: #faf8fd;
-  border-radius: 14px;
-  padding: 18px;
-  line-height: 1.9;
-  margin-bottom: 20px;
-  font-size: 15px;
-}
-
-.question-text {
-  font-size: 23px;
-  line-height: 1.8;
-  margin-bottom: 25px;
-  font-weight: 500;
-  white-space: pre-line;
-}
-
-.question-text .jp {
-  font-size: 25px;
-}
-
-/* =========================
-   OPTIONS
-========================= */
-
-.options {
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-}
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 15px 17px;
-  border: 1px solid #e5dfea;
-  border-radius: 13px;
-  cursor: pointer;
-  transition: .15s ease;
-}
-
-.option:hover {
-  background: #faf7ff;
-  border-color: #bba3d8;
-}
-
-.option.selected {
-  background: #f0e7fb;
-  border-color: #8262ac;
-  box-shadow: 0 0 0 2px #ddcff0;
-}
-
-.option-letter {
-  width: 31px;
-  height: 31px;
-  min-width: 31px;
-  border-radius: 50%;
-  background: #eee8f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-}
-
-.option.selected .option-letter {
-  background: #8262ac;
-  color: white;
-}
-
-/* =========================
-   AUDIO
-========================= */
-
-.audio-box {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 17px;
-  margin-bottom: 20px;
-  background: #f3edfb;
-  border-radius: 16px;
-}
-
-.audio-icon {
-  font-size: 27px;
-}
-
-.audio-box p {
-  margin: 2px 0 0;
-  font-size: 11px;
-  color: #796d82;
-}
-
-.audio-box button {
-  margin-left: auto;
-  background: #8060ad;
-  color: white;
-  padding: 10px 16px;
-  border-radius: 10px;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* =========================
-   NAV BUTTONS
-========================= */
-
-.navigation-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 35px;
-  padding-top: 20px;
-  border-top: 1px solid #eee9f2;
-}
-
-/* =========================
-   TRANSITION
-========================= */
-
-#transitionScreen {
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-}
-
-#transitionScreen.active {
-  display: flex;
-}
-
-.transition-card {
-  width: 100%;
-  max-width: 500px;
-  background: white;
-  padding: 45px;
   text-align: center;
-  border-radius: 25px;
-  box-shadow: 0 20px 50px rgba(70,40,100,.12);
-}
 
-.transition-icon {
-  width: 65px;
-  height: 65px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  background: #e5d9f2;
-  color: #73539a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-}
-
-/* =========================
-   RESULT
-========================= */
-
-#resultScreen {
-  align-items: center;
-  justify-content: center;
-  padding: 25px;
-}
-
-#resultScreen.active {
-  display: flex;
-}
-
-.result-card {
-  width: 100%;
-  max-width: 700px;
   background: white;
-  border-radius: 27px;
-  padding: 40px;
+
+  padding: 25px 15px;
+
+  border-radius: 18px;
+
+  color: var(--muted);
+
+  font-size: 13px;
+
+}
+
+footer {
+
   text-align: center;
-  box-shadow: 0 20px 60px rgba(70,40,100,.14);
-}
 
-.result-title {
-  font-weight: 700;
-  color: #7655a0;
-  letter-spacing: 2px;
-}
-
-.score-label {
-  margin-top: 25px;
   font-size: 11px;
-  color: #8a7d94;
-  letter-spacing: 2px;
+
+  line-height: 1.7;
+
+  color: #a196b0;
+
+  margin-top: 28px;
+
 }
 
-.final-score {
-  font-size: 75px;
-  line-height: 1;
-  font-weight: 700;
-  color: #7555a0;
-  margin-top: 10px;
+@media (max-width: 380px) {
+
+  .app { padding: 18px 12px 30px; }
+
+  .face { padding: 23px 14px; }
+
+  .page-btn { padding: 10px 11px; }
+
+  .action-btn { font-size: 11px; }
+
 }
 
-.score-max {
-  color: #998ca2;
-}
 
-.level-result {
-  display: inline-block;
-  margin-top: 18px;
-  padding: 8px 25px;
-  border-radius: 30px;
-  background: #eee4f8;
-  color: #68488e;
-  font-weight: 700;
-}
-
-.result-divider {
-  height: 1px;
-  background: #eee9f2;
-  margin: 25px 0;
-}
-
-.raw-score {
+.auto-controls {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 9px;
+  margin-top: 12px;
 }
 
-.raw-score div {
-  background: #faf8fd;
-  border-radius: 13px;
-  padding: 15px;
+.auto-controls #speakBtn {
+  grid-column: 1 / -1;
+  background: #e2f5e9;
+  color: #47775c;
+  border-color: #d2ebda;
 }
 
-.raw-score span {
-  display: block;
-  font-size: 11px;
-  color: #897d91;
-}
-
-.raw-score strong {
-  font-size: 20px;
-  color: #634580;
-}
-
-.result-card h3 {
-  text-align: left;
-  margin-top: 30px;
-}
-
-/* =========================
-   SECTION RESULTS
-========================= */
-
-.section-result {
-  margin: 14px 0;
-  text-align: left;
-}
-
-.section-result-header {
+.auto-settings {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  font-size: 13px;
-  margin-bottom: 5px;
-}
-
-.section-result-bar {
-  height: 8px;
-  background: #eeeaf2;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.section-result-fill {
-  height: 100%;
-  background: #9070bb;
-}
-
-/* =========================
-   WARNING
-========================= */
-
-.result-warning {
-  margin: 25px 0;
-  background: #fff9e9;
-  border-radius: 13px;
-  padding: 15px;
-  text-align: left;
-  font-size: 11px;
-  line-height: 1.7;
-}
-
-/* =========================
-   REVIEW
-========================= */
-
-.review-correct {
-  border-color: #82b594 !important;
-  background: #f0faf3 !important;
-}
-
-.review-wrong {
-  border-color: #c88989 !important;
-  background: #fff3f3 !important;
-}
-
-.review-answer {
+  flex-wrap: wrap;
+  gap: 9px;
   margin-top: 12px;
   padding: 12px;
+  border-radius: 16px;
+  background: #ffffffb8;
+  border: 1px solid #eee5f5;
+}
+
+.auto-settings label {
+  font-size: 12px;
+  color: #82758f;
+}
+
+.auto-settings select {
+  border: 1px solid #e9dff3;
   border-radius: 10px;
-  background: #f8f5fb;
-  font-size: 13px;
+  padding: 9px;
+  background: white;
+  color: #493e60;
 }
 
-.review-answer strong {
-  color: #68488e;
+.action-btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 800px) {
-
-  .exam-container {
-    grid-template-columns: 1fr;
+@media (max-width: 380px) {
+  .auto-settings {
+    justify-content: center;
   }
-
-  .question-nav {
-    position: static;
-    order: 2;
-  }
-
-  #questionGrid {
-    grid-template-columns: repeat(10, 1fr);
-  }
-
-  .question-area {
-    padding: 23px;
-  }
-
-  .question-text {
-    font-size: 19px;
-  }
-
-  .exam-header {
-    padding: 12px 15px;
-  }
-
-  .progress-wrapper {
-    padding: 10px 15px;
-  }
-
-  .start-card,
-  .result-card {
-    padding: 28px 20px;
-  }
-
-  .start-card h1 {
-    font-size: 34px;
-  }
-
 }
 
-@media (max-width: 500px) {
 
-  .exam-info {
-    gap: 7px;
-  }
-
-  .exam-info div {
-    padding: 12px 5px;
-  }
-
-  .exam-info strong {
-    font-size: 22px;
-  }
-
-  #questionGrid {
-    grid-template-columns: repeat(8, 1fr);
-  }
-
-  .question-area {
-    min-height: auto;
-  }
-
-  .final-score {
-    font-size: 60px;
-  }
-
-  .navigation-buttons {
-    gap: 10px;
-  }
-
-  .navigation-buttons button {
-    flex: 1;
-  }
-
-  .audio-box {
-    align-items: flex-start;
-  }
-
-  .audio-box button {
-    padding: 9px 12px;
-  }
-
-}
+  
 </style>
+
 </head>
 
 <body>
 
-<!-- =====================================================
-     START SCREEN
-===================================================== -->
+<main class="app">
 
-<section id="startScreen" class="screen active">
+  <header>
 
-  <div class="start-card">
-
-    <div class="logo">
-      JFT-Basic
-    </div>
-
-    <h1>Mock Test</h1>
-
-    <p class="subtitle">
-      Japan Foundation Test for Basic Japanese
-    </p>
-
-    <div class="exam-info">
-
-      <div>
-        <strong>50</strong>
-        <span>Questions</span>
-      </div>
-
-      <div>
-        <strong>60</strong>
-        <span>Minutes</span>
-      </div>
-
-      <div>
-        <strong>4</strong>
-        <span>Sections</span>
-      </div>
-
-    </div>
-
-    <div class="notice">
-
-      <strong>試験について</strong>
-
-      <p>
-        この模擬試験はJFT-Basicの形式を参考にした
-        オリジナル問題です。
-      </p>
-
-      <p>
-        This is a practice simulation. The score is an
-        estimated score and is not an official JFT-Basic score.
-      </p>
-
-    </div>
-
-    <button id="startBtn" class="primary-btn">
-      START TEST
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     EXAM SCREEN
-===================================================== -->
-
-<section id="examScreen" class="screen">
-
-  <header class="exam-header">
+    <div class="logo">🌸</div>
 
     <div>
 
-      <div id="sectionName" class="section-name">
-        文字と語彙
-      </div>
+      <h1>Kotoba Bloom</h1>
 
-      <div id="sectionSub" class="section-sub">
-        Script & Vocabulary
-      </div>
-
-    </div>
-
-    <div id="timerBox" class="timer-box">
-
-      <span>TIME</span>
-
-      <strong id="timer">
-        60:00
-      </strong>
+      <div class="subtitle">Japanese vocabulary flashcards</div>
 
     </div>
 
   </header>
 
+  <section class="hero">
 
-  <div class="progress-wrapper">
+    <div class="eyebrow">YOUR LITTLE STUDY GARDEN</div>
 
-    <div class="progress-text">
+    <h2>一つずつ、覚えよう。</h2>
 
-      Question
+    <p> ことば　飲食料品製造業　by ハイファ ✨</p>
 
-      <strong id="questionNumber">
-        1
-      </strong>
+  </section>
 
-      /
+  <div class="section-title">
 
-      <strong id="totalQuestions">
-        50
-      </strong>
+    <h3>📚 Pilih ページ</h3>
 
-    </div>
-
-    <div class="progress-bar">
-      <div id="progressBar"></div>
-    </div>
+    <span>Nomor di kolom kiri PDF</span>
 
   </div>
 
+  <div class="pages" id="pageButtons"></div>
 
-  <main class="exam-container">
+  <div id="studyArea">
 
-    <aside class="question-nav">
+    <div class="page-info">
 
-      <div class="nav-title">
-        Questions
+      <span id="pageLabel">ページ 2</span>
+
+      <strong id="cardCounter">1 / 1</strong>
+
+    </div>
+
+    <div class="card-scene" id="cardScene">
+
+      <div class="card" id="flashcard" role="button" tabindex="0"
+
+           aria-label="Ketuk untuk membalik flashcard">
+
+        <div class="face front">
+
+          <span class="card-decoration top-left">✿</span>
+
+          <div class="card-label">KOSAKATA JEPANG</div>
+
+          <div class="jp-word" id="jpWord">飲料</div>
+
+          <div class="hint">Ketuk kartu untuk melihat arti ↻</div>
+
+          <span class="card-decoration bottom-right">♡</span>
+
+        </div>
+
+        <div class="face back">
+
+          <span class="card-decoration top-left">✧</span>
+
+          <div class="card-label">CARA BACA</div>
+
+          <div class="reading" id="reading">いんりょう</div>
+
+          <div class="meaning" id="meaning">minuman</div>
+
+          <div class="hint">Yoku dekimashita! 🌱</div>
+
+        </div>
+
       </div>
 
-      <div id="questionGrid"></div>
+    </div>
 
-    </aside>
+    <div class="actions">
 
-
-    <article class="question-area">
-
-      <div
-        class="category-label"
-        id="categoryLabel">
-        語の意味
-      </div>
-
-
-      <div id="questionContent"></div>
-
-
-  <div id="audioBox" class="audio-box hidden">
-  <div class="audio-icon">🔊</div>
-
-  <div>
-    <strong>Listening</strong>
-    <p>Dengarkan percakapan sebelum memilih jawaban.</p>
-  </div>
-
-  <button id="playAudioBtn" type="button">
-    ▶ Play
-  </button>
+        
+<div class="auto-controls">
+  <button class="action-btn" id="speakBtn">🔊 Suara Jepang</button>
+  <button class="action-btn" id="autoNextBtn">▶ Auto Next</button>
+  <button class="action-btn" id="autoReverseBtn">◀ Auto Reverse</button>
 </div>
 
+<div class="auto-settings">
+  <label for="intervalSelect">Interval pergantian</label>
+  <select id="intervalSelect">
+    <option value="3">3 detik</option>
+    <option value="5" selected>5 detik</option>
+    <option value="8">8 detik</option>
+    <option value="10">10 detik</option>
+  </select>
 
-      <div
-        id="options"
-        class="options">
-      </div>
+  <button class="action-btn" id="pauseAutoBtn">⏸ Jeda</button>
+</div>
 
+      
 
-      <div class="navigation-buttons">
+      <button class="action-btn" id="previousBtn">← Kembali</button>
 
-        <button
-          id="prevBtn"
-          class="secondary-btn">
-          ← Previous
-        </button>
+      <button class="action-btn primary" id="flipBtn">Balik kartu ✨</button>
 
-        <button
-          id="nextBtn"
-          class="primary-btn">
-          Next →
-        </button>
+      <button class="action-btn" id="nextBtn">Lanjut →</button>
 
-      </div>
-
-    </article>
-
-  </main>
-
-</section>
-
-
-<!-- =====================================================
-     TRANSITION
-===================================================== -->
-
-<section
-  id="transitionScreen"
-  class="screen">
-
-  <div class="transition-card">
-
-    <div class="transition-icon">
-      ✓
     </div>
 
-    <h2 id="transitionTitle">
-      Section Completed
-    </h2>
+    <div class="progress">
 
-    <p id="transitionText">
-      You cannot return to the previous section.
-    </p>
+      <div class="progress-bar" id="progressBar"></div>
 
-    <button
-      id="continueBtn"
-      class="primary-btn">
-      Continue →
-    </button>
+    </div>
 
   </div>
 
-</section>
+  <footer>
 
+    Kotoba Bloom · Belajar dengan santai, ulangi sampai ingat 🌷
 
-<!-- =====================================================
-     RESULT
-===================================================== -->
+  </footer>
 
-<section
-  id="resultScreen"
-  class="screen">
-
-  <div class="result-card">
-
-    <div class="result-title">
-      TEST COMPLETED
-    </div>
-
-    <div class="score-label">
-      ESTIMATED SCORE
-    </div>
-
-    <div
-      id="finalScore"
-      class="final-score">
-      0
-    </div>
-
-    <div class="score-max">
-      / 250
-    </div>
-
-    <div
-      id="levelResult"
-      class="level-result">
-      -
-    </div>
-
-    <div class="result-divider"></div>
-
-    <div class="raw-score">
-
-      <div>
-
-        <span>
-          Correct
-        </span>
-
-        <strong id="correctCount">
-          0 / 50
-        </strong>
-
-      </div>
-
-      <div>
-
-        <span>
-          Accuracy
-        </span>
-
-        <strong id="accuracy">
-          0%
-        </strong>
-
-      </div>
-
-    </div>
-
-    <h3>
-      Section Performance
-    </h3>
-
-    <div id="sectionResults"></div>
-
-    <div class="result-warning">
-
-      ⚠️ Estimated practice score only.
-
-      <br><br>
-
-      The official JFT-Basic score uses
-      statistical equating and cannot be reproduced
-      exactly by this website.
-
-    </div>
-
-    <button
-      id="reviewBtn"
-      class="secondary-btn">
-      Review Answers
-    </button>
-
-    <button
-      id="restartBtn"
-      class="primary-btn">
-      Try Again
-    </button>
-
-  </div>
-
-</section>
-
+</main>
 
 <script>
 
-/* =====================================================
-   QUESTION DATABASE
-===================================================== */
+/*
 
-const JFT_QUESTIONS = [
+  DATA KOSAKATA
 
-/* =========================
-   SECTION 1
-   1-12
-========================= */
+  page   = nomor pada kolom ページ paling kiri PDF
 
-{
-  id: 1,
-  section: 1,
-  category: "語の意味",
-  type: "choice",
-  question: "「予約」の意味はどれですか。",
-  options: [
-    "tempat memesan terlebih dahulu",
-    "membayar dengan uang tunai",
-    "mencari tempat baru",
-    "membatalkan pekerjaan"
-  ],
-  answer: 0
-},
+  number = nomor urut pada kolom 番号 PDF
 
-{
-  id: 2,
-  section: 1,
-  category: "語の用法",
-  type: "choice",
-  question: "「大切」の使い方が正しい文はどれですか。",
-  options: [
-    "これは大切な写真です。",
-    "写真を大切に食べました。",
-    "大切を駅で買いました。",
-    "昨日は大切に行きました。"
-  ],
-  answer: 0
-},
+  Masukkan semua kosakata di sini.
 
-{
-  id: 3,
-  section: 1,
-  category: "漢字の読み",
-  type: "choice",
-  question: "「会社」の読み方はどれですか。",
-  options: [
-    "かいしゃ",
-    "かいじゃ",
-    "がいしゃ",
-    "かしゃい"
-  ],
-  answer: 0
-},
+  Jangan menggunakan nomor halaman PDF viewer.
 
-{
-  id: 4,
-  section: 1,
-  category: "漢字の読み",
-  type: "choice",
-  question: "「病院」の読み方はどれですか。",
-  options: [
-    "びょういん",
-    "びょいん",
-    "びょうえん",
-    "びょうにん"
-  ],
-  answer: 0
-},
+*/
 
-{
-  id: 5,
-  section: 1,
-  category: "漢字の意味と用法",
-  type: "choice",
-  question: "「駅」の意味として正しいものはどれですか。",
-  options: [
-    "stasiun",
-    "rumah sakit",
-    "kantor pos",
-    "sekolah"
-  ],
-  answer: 0
-},
+const DATA = [
 
-{
-  id: 6,
-  section: 1,
-  category: "語の意味",
-  type: "choice",
-  question: "「急いでください。」の意味はどれですか。",
-  options: [
-    "Tolong segera / cepat.",
-    "Tolong tunggu.",
-    "Tolong duduk.",
-    "Tolong ulangi."
-  ],
-  answer: 0
-},
+  // Page 1
+  { page: 1, number: 1, word: "飲料", reading: "いんりょう", meaning: "minuman" },
+  { page: 1, number: 2, word: "食料品", reading: "しょくりょうひん", meaning: "bahan makanan" },
+  { page: 1, number: 3, word: "欠かせません", reading: "かかせません", meaning: "ini penting" },
+  { page: 1, number: 4, word: "製造する", reading: "せいぞうする", meaning: "pembuatan" },
+  { page: 1, number: 5, word: "「飲食料品製造業", reading: "「いんしょくりょうひんせいぞうぎょう", meaning: "industri manufaktur makanan dan minuman" },
+  { page: 1, number: 6, word: "ハムソーセージ", reading: "ハムソーセージ", meaning: "sosis daging" },
+  { page: 1, number: 7, word: "「魚の缶詰", reading: "さかなのかんづめ", meaning: "ikan kaleng" },
 
-{
-  id: 7,
-  section: 1,
-  category: "語の用法",
-  type: "choice",
-  question: "「慣れる」の使い方が正しい文はどれですか。",
-  options: [
-    "日本の生活にだんだん慣れました。",
-    "ご飯を慣れて食べました。",
-    "駅を慣れて買いました。",
-    "昨日を慣れていました。"
-  ],
-  answer: 0
-},
+  // Page 2
+  { page: 2, number: 8, word: "惣菜", reading: "そうざい", meaning: "makanan pendamping" },
+  { page: 2, number: 9, word: "冷凍食品", reading: "「れいとうしょくひん", meaning: "makanan beku" },
+  { page: 2, number: 10, word: "農林水産省", reading: "「のうりんすいさんしょう", meaning: "Kementerian Pertanian, Kehutanan dan Perikanan" },
+  { page: 2, number: 11, word: "統計", reading: "とうけい", meaning: "statistik" },
+  { page: 2, number: 12, word: "国内生産額", reading: "「こくないせいさんがく", meaning: "jumlah produksi dalam negeri" },
+  { page: 2, number: 13, word: "数年", reading: "すうねん", meaning: "beberapa tahun" },
+  { page: 2, number: 14, word: "兆円", reading: "ちょうえん", meaning: "triliun yen" },
+  { page: 2, number: 15, word: "特定技能1号", reading: "とくていぎのう1ごう", meaning: "keahlian khusus tingkat 1" },
+  { page: 2, number: 16, word: "在留資格者", reading: "「ぱいりゅうしかくしゃ", meaning: "orang berstatus penduduk" },
+  { page: 2, number: 17, word: "業種", reading: "ぎょうしゅ", meaning: "industri" },
+  { page: 2, number: 18, word: "食品衛生", reading: "しょくひんえいせい", meaning: "kebersihan makanan" },
+  { page: 2, number: 19, word: "労働安全", reading: "ろうどうあんぜん", meaning: "keselamatan kerja" },
+  { page: 2, number: 20, word: "知識", reading: "ちしき", meaning: "pengetahuan" },
+  { page: 2, number: 21, word: "技能", reading: "ぎのう", meaning: "keahlian" },
 
-{
-  id: 8,
-  section: 1,
-  category: "漢字の読み",
-  type: "choice",
-  question: "「毎朝」の読み方はどれですか。",
-  options: [
-    "まいあさ",
-    "まいちょう",
-    "まいばん",
-    "まいげつ"
-  ],
-  answer: 0
-},
+  // Page 3
+  { page: 3, number: 22, word: "必要", reading: "ひつよう", meaning: "membutuhkan" },
+  { page: 3, number: 23, word: "命", reading: "いのち", meaning: "kehidupan" },
+  { page: 3, number: 24, word: "生命", reading: "せいめい", meaning: "kehidupan" },
+  { page: 3, number: 25, word: "守る", reading: "まもる", meaning: "melindungi" },
+  { page: 3, number: 26, word: "信用", reading: "しんよう", meaning: "kredibilitas" },
+  { page: 3, number: 27, word: "安全保護具", reading: "「あんぜんほごぐ", meaning: "peralatan perlindungan keselamatan" },
+  { page: 3, number: 28, word: "着用", reading: "ちゃくよう", meaning: "memakai" },
+  { page: 3, number: 29, word: "作業者", reading: "さぎょうしゃ", meaning: "pekerja" },
+  { page: 3, number: 30, word: "健康", reading: "けんこう", meaning: "kesehatan" },
 
-{
-  id: 9,
-  section: 1,
-  category: "漢字の意味と用法",
-  type: "choice",
-  question: "「無料」の意味はどれですか。",
-  options: [
-    "gratis",
-    "mahal",
-    "terlambat",
-    "penuh"
-  ],
-  answer: 0
-},
+  // Page 5
+  { page: 5, number: 1, word: "基本", reading: "きほん", meaning: "dasar" },
+  { page: 5, number: 2, word: "行動", reading: "こうどう", meaning: "tindakan" },
+  { page: 5, number: 3, word: "清潔", reading: "せいけつ", meaning: "kebersihan" },
+  { page: 5, number: 4, word: "設備", reading: "せつび", meaning: "fasilitas" },
+  { page: 5, number: 5, word: "保管", reading: "ほかん", meaning: "penyimpanan" },
+  { page: 5, number: 6, word: "共通する", reading: "きょうつうする", meaning: "memiliki kesamaan" },
+  { page: 5, number: 7, word: "一般", reading: "いっぱん", meaning: "umum" },
+  { page: 5, number: 8, word: "重要", reading: "じゅうよう", meaning: "penting" },
+  { page: 5, number: 9, word: "施設", reading: "しせつ", meaning: "fasilitas" },
+  { page: 5, number: 10, word: "種類", reading: "しゅるい", meaning: "jenis" },
+  { page: 5, number: 11, word: "特徴", reading: "とくちょう", meaning: "fitur" },
+  { page: 5, number: 12, word: "応じて", reading: "おうじて", meaning: "bergantung kepada" },
+  { page: 5, number: 13, word: "工程", reading: "こうてい", meaning: "proses" },
+  { page: 5, number: 14, word: "組み合わせて", reading: "くみあわせて", meaning: "dalam kombinasi" },
 
-{
-  id: 10,
-  section: 1,
-  category: "語の意味",
-  type: "choice",
-  question: "「必要」の意味はどれですか。",
-  options: [
-    "diperlukan",
-    "dilarang",
-    "berbahaya",
-    "berbeda"
-  ],
-  answer: 0
-},
+  // Page 6
+  { page: 6, number: 1, word: "危害要因", reading: "きがいよういん", meaning: "faktor bahaya" },
+  { page: 6, number: 2, word: "含まれない", reading: "「ふくまれない", meaning: "tidak termasuk" },
+  { page: 6, number: 3, word: "活動", reading: "かつどう", meaning: "aktivitas" },
+  { page: 6, number: 4, word: "学習する", reading: "がくしゅうする", meaning: "mempelajari" },
+  { page: 6, number: 1, word: "物理的危害要因", reading: "「ぶつりてききがいよういん", meaning: "bahaya fisik" },
+  { page: 6, number: 2, word: "化学的危害要因", reading: "「かがくてききがいよういん", meaning: "bahaya kimia" },
+  { page: 6, number: 3, word: "生物的危害要因", reading: "「せいぶつてききがいよういん", meaning: "bahaya biologis" },
+  { page: 6, number: 4, word: "硬い", reading: "かたい", meaning: "keras" },
+  { page: 6, number: 5, word: "歯が欠ける", reading: "はがかける", meaning: "gigi terkelupas" },
+  { page: 6, number: 6, word: "尖って", reading: "とがって", meaning: "Lancip" },
+  { page: 6, number: 7, word: "傷", reading: "きず", meaning: "menggores/tergores" },
+  { page: 6, number: 8, word: "代表的な", reading: "だいひょうてき", meaning: "perwakilan" },
+  { page: 6, number: 9, word: "金属片", reading: "きんぞくへん", meaning: "serpihan logam" },
+  { page: 6, number: 10, word: "ガラス片", reading: "ガラスへん", meaning: "sepotong kaca" },
+  { page: 6, number: 11, word: "プラスチック片", reading: "プラスチックへん", meaning: "potongan plastik" },
+  { page: 6, number: 12, word: "石", reading: "いし", meaning: "batu" },
+  { page: 6, number: 13, word: "原材料", reading: "げんざいりょう", meaning: "bahan baku" },
+  { page: 6, number: 14, word: "取り除く", reading: "とりのぞく", meaning: "menghapus" },
 
-{
-  id: 11,
-  section: 1,
-  category: "語の用法",
-  type: "choice",
-  question: "「間に合う」の使い方が正しい文はどれですか。",
-  options: [
-    "急いだので、電車に間に合いました。",
-    "ご飯を間に合いました。",
-    "友達を間に合いました。",
-    "駅で間に合うを買いました。"
-  ],
-  answer: 0
-},
+  // Page 7
+  { page: 7, number: 15, word: "異物", reading: "いぶつ", meaning: "benda asing" },
+  { page: 7, number: 16, word: "卵の殻", reading: "たまご のから", meaning: "kulit telur" },
+  { page: 7, number: 17, word: "硬質異物", reading: "こうしついぶつ", meaning: "benda asing yang keras" },
+  { page: 7, number: 18, word: "混入", reading: "こんにゅう", meaning: "kontaminasi" },
+  { page: 7, number: 19, word: "防止", reading: "ぼうし", meaning: "pencegahan" },
+  { page: 7, number: 20, word: "土", reading: "つち", meaning: "tanah" },
+  { page: 7, number: 21, word: "小石", reading: "こいし", meaning: "kerikil" },
+  { page: 7, number: 22, word: "洗浄", reading: "せんじょう", meaning: "Pencucian" },
+  { page: 7, number: 23, word: "選別", reading: "せんべつ", meaning: "penyortiran" },
+  { page: 7, number: 24, word: "下処理", reading: "したしょり", meaning: "persiapan" },
+  { page: 7, number: 25, word: "野菜の根の部分", reading: "「やさいのねのぶぶん", meaning: "bagian akar sayuran" },
+  { page: 7, number: 26, word: "貝の殻", reading: "かいのから", meaning: "kerang laut" },
+  { page: 7, number: 27, word: "魚のエラ", reading: "さかなのえら", meaning: "insang ikan" },
+  { page: 7, number: 28, word: "骨", reading: "ほね", meaning: "tulang" },
 
-{
-  id: 12,
-  section: 1,
-  category: "漢字の読み",
-  type: "choice",
-  question: "「仕事」の読み方はどれですか。",
-  options: [
-    "しごと",
-    "しこと",
-    "じごと",
-    "しごど"
-  ],
-  answer: 0
-},
+  // Page 8
+  { page: 8, number: 1, word: "蓋", reading: "ふた", meaning: "tutup" },
+  { page: 8, number: 2, word: "紙片", reading: "しへん", meaning: "selembar kertas" },
+  { page: 8, number: 3, word: "不潔", reading: "ふけつ", meaning: "kekotoran" },
+  { page: 8, number: 4, word: "不衛生", reading: "ふえいせい", meaning: "tidak sehat" },
+  { page: 8, number: 5, word: "苦情(クレーム)", reading: "くじょう", meaning: "keluhan (klaim)" },
+  { page: 8, number: 6, word: "返品", reading: "へんぴん", meaning: "kembali" },
+  { page: 8, number: 7, word: "会社の信用", reading: "「かいしゃのしんよう", meaning: "kepercayaan perusahaan" },
+  { page: 8, number: 8, word: "落とす", reading: "おとす", meaning: "menjatuhkan" },
+  { page: 8, number: 9, word: "物質", reading: "ぶっしつ", meaning: "bahan" },
+  { page: 8, number: 10, word: "ヒスタミン", reading: "", meaning: "histamin" },
+  { page: 8, number: 11, word: "じゃがいもの芽", reading: "「じゃがいものめ", meaning: "kecambah kentang" },
+  { page: 8, number: 12, word: "ソラニン", reading: "", meaning: "solanin" },
+  { page: 8, number: 13, word: "殺菌剤", reading: "さっきんざい", meaning: "fungisida" },
+  { page: 8, number: 14, word: "薬剤", reading: "やくざい", meaning: "obat" },
+  { page: 8, number: 15, word: "化学物質", reading: "「かがくぶっしつ", meaning: "bahan kimia" },
+  { page: 8, number: 16, word: "反応", reading: "はんのう", meaning: "reaksi" },
+  { page: 8, number: 17, word: "過剰", reading: "かじょう", meaning: "kelebihan" },
+  { page: 8, number: 18, word: "症状", reading: "しょうじょう", meaning: "gejala" },
+  { page: 8, number: 19, word: "かゆみ", reading: "", meaning: "gatal" },
+  { page: 8, number: 20, word: "じんましん", reading: "", meaning: "sarang lebah" },
+  { page: 8, number: 21, word: "唇", reading: "くちびる", meaning: "bibir" },
+  { page: 8, number: 22, word: "まぶたの腫れ", reading: "まぶたのはれ", meaning: "pembengkakan kelopak mata" },
+  { page: 8, number: 23, word: "法律", reading: "ほうりつ", meaning: "hukum" },
+  { page: 8, number: 24, word: "発症数", reading: "はっしょうすう", meaning: "jumlah kasus" },
 
-/* =========================
-   SECTION 2
-   13-24
-========================= */
+  // Page 9
+  { page: 9, number: 25, word: "加工食品", reading: "かこうしょくひん", meaning: "makanan olahan" },
+  { page: 9, number: 26, word: "表示", reading: "ひょうじ", meaning: "menampilkan" },
+  { page: 9, number: 27, word: "義務", reading: "ぎむ", meaning: "tugas" },
+  { page: 9, number: 28, word: "推奨", reading: "すいしょう", meaning: "rekomendasi" },
+  { page: 9, number: 29, word: "準ずるもの", reading: "じゅんずるもの", meaning: "setara" },
+  { page: 9, number: 1, word: "品目", reading: "ひんもく", meaning: "barang" },
+  { page: 9, number: 2, word: "くるみ", reading: "", meaning: "kenari" },
+  { page: 9, number: 3, word: "移される", reading: "うつされる", meaning: "dipindahkan" },
+  { page: 9, number: 4, word: "調理", reading: "ちょうり", meaning: "memasak" },
+  { page: 9, number: 5, word: "まな板", reading: "まないた", meaning: "talenan" },
+  { page: 9, number: 6, word: "包丁", reading: "ほうちょう", meaning: "pisau" },
+  { page: 9, number: 7, word: "ゆで卵", reading: "ゆでたまご", meaning: "telur rebus" },
+  { page: 9, number: 8, word: "洗浄剤", reading: "「せんじょうざい", meaning: "sabun cuci" },
+  { page: 9, number: 9, word: "残らない", reading: "のこらない", meaning: "tidak ketinggalan" },
+  { page: 9, number: 10, word: "流す", reading: "ながす", meaning: "mengalir" },
+  { page: 9, number: 11, word: "獲った", reading: "とった", meaning: "tertangkap" },
+  { page: 9, number: 12, word: "条件", reading: "じょうけん", meaning: "kondisi" },
+  { page: 9, number: 13, word: "マグロ", reading: "", meaning: "tuna" },
+  { page: 9, number: 14, word: "イワシ", reading: "", meaning: "sarden" },
+  { page: 9, number: 15, word: "サバ", reading: "", meaning: "ikan kembung" },
 
-{
-  id: 13,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  context: "A：明日は何をしますか。\nB：天気がよかったら、＿＿＿。",
-  question: "正しい答えを選んでください。",
-  options: [
-    "公園へ行きます",
-    "公園へ行きました",
-    "公園へ行っていました",
-    "公園へ行くでした"
-  ],
-  answer: 0
-},
+  // Page 10
+  { page: 10, number: 1, word: "赤身魚", reading: "あかみざかな", meaning: "ikan merah" },
+  { page: 10, number: 2, word: "似た", reading: "にた", meaning: "sama" },
+  { page: 10, number: 3, word: "増える", reading: "ふえる", meaning: "meningkatkan" },
+  { page: 10, number: 4, word: "じゃがいもの芽", reading: "じゃがいものめ", meaning: "kecambah/tunas kentang" },
+  { page: 10, number: 5, word: "吐き気", reading: "はきけ", meaning: "mual" },
+  { page: 10, number: 6, word: "おう吐", reading: "おうと", meaning: "muntah" },
+  { page: 10, number: 7, word: "下痢", reading: "げり", meaning: "diare" },
+  { page: 10, number: 8, word: "腹痛", reading: "ふくつう", meaning: "sakit perut" },
+  { page: 10, number: 9, word: "頭痛", reading: "ずつう", meaning: "sakit kepala" },
+  { page: 10, number: 10, word: "食中毒", reading: "しょくちゅうどく", meaning: "keracunan makanan" },
+  { page: 10, number: 11, word: "取り除く", reading: "とりのぞく", meaning: "menghapus" },
+  { page: 10, number: 12, word: "防ぐ", reading: "ふせぐ", meaning: "mencegah" },
+  { page: 10, number: 13, word: "細菌", reading: "さいきん", meaning: "bakteri" },
+  { page: 10, number: 14, word: "寄生虫", reading: "きせいちゅう", meaning: "parasit" },
+  { page: 10, number: 15, word: "カビ", reading: "", meaning: "jamur" },
+  { page: 10, number: 16, word: "病原", reading: "びょうげん", meaning: "Patogen (organisme penyebab penyakit)" },
+  { page: 10, number: 17, word: "顕微鏡", reading: "けんびきょう", meaning: "mikroskop" },
+  { page: 10, number: 18, word: "生き物", reading: "いきもの", meaning: "makhluk hidup" },
 
-{
-  id: 14,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  context: "今日は仕事がありません。",
-  question: "「ので」を使って正しい文を選んでください。",
-  options: [
-    "仕事がないので、映画を見ます。",
-    "仕事がないので、映画を見ましたでした。",
-    "仕事がないので、映画を見ませんでしたか。",
-    "仕事がないので、映画を見てくださいません。"
-  ],
-  answer: 0
-},
+  // Page 11
+  { page: 11, number: 1, word: "発症する", reading: "「はっしょうする", meaning: "mengembangkan gejala" },
+  { page: 11, number: 2, word: "鶏卵", reading: "けいらん", meaning: "telur ayam" },
+  { page: 11, number: 3, word: "魚介類", reading: "ぎょかいるい", meaning: "makanan laut" },
+  { page: 11, number: 4, word: "激しい下痢", reading: "はげしいげり", meaning: "diare parah" },
+  { page: 11, number: 5, word: "毒素", reading: "どくそ", meaning: "toksin/racun" },
+  { page: 11, number: 6, word: "井戸水", reading: "いどみず", meaning: "air sumur" },
+  { page: 11, number: 7, word: "血便", reading: "けつべん", meaning: "tinja berdarah" },
+  { page: 11, number: 8, word: "皮膚", reading: "ひふ", meaning: "kulit" },
+  { page: 11, number: 9, word: "傷", reading: "きず", meaning: "menggores" },
+  { page: 11, number: 10, word: "芽胞", reading: "がほう", meaning: "spora" },
+  { page: 11, number: 11, word: "呼吸困難", reading: "こきゅうこんなん", meaning: "sulit bernafas" },
+  { page: 11, number: 1, word: "発生", reading: "はっせい", meaning: "kejadian" },
+  { page: 11, number: 2, word: "食中毒", reading: "しょくちゅうどく", meaning: "keracunan makanan" },
 
-{
-  id: 15,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「日本へ行く＿＿＿、日本語を勉強しています。」",
-  options: [
-    "ために",
-    "そうに",
-    "ところで",
-    "ばかりで"
-  ],
-  answer: 0
-},
+  // Page 12
+  { page: 12, number: 3, word: "予防", reading: "よぼう", meaning: "pencegahan" },
+  { page: 12, number: 4, word: "つけない", reading: "", meaning: "jangan memakainya" },
+  { page: 12, number: 5, word: "増やさない", reading: "ふやさない", meaning: "jangan menambah" },
+  { page: 12, number: 6, word: "やっつける(ころす)", reading: "", meaning: "kekalahan (membunuh)" },
+  { page: 12, number: 7, word: "作業開始前", reading: "さぎょうかいしまえ", meaning: "sebelum mulai bekerja" },
+  { page: 12, number: 8, word: "温度", reading: "おんど", meaning: "suhu" },
+  { page: 12, number: 9, word: "水分", reading: "すいぶん", meaning: "kelembaban" },
+  { page: 12, number: 10, word: "栄養", reading: "えいよう", meaning: "nutrisi" },
+  { page: 12, number: 11, word: "湿度", reading: "しつど", meaning: "kelembaban" },
+  { page: 12, number: 12, word: "環境", reading: "かんきょう", meaning: "lingkungan" },
+  { page: 12, number: 13, word: "好み", reading: "このみ", meaning: "menyukai" },
+  { page: 12, number: 14, word: "加熱", reading: "かねつ", meaning: "pemanasan" },
 
-{
-  id: 16,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「この料理は辛＿＿＿です。」",
-  options: [
-    "そう",
-    "よう",
-    "ため",
-    "はず"
-  ],
-  answer: 0
-},
+  // Page 13
+  { page: 13, number: 1, word: "厳しい", reading: "きびしい", meaning: "ketat" },
+  { page: 13, number: 2, word: "「濃度の薬剤", reading: "「のうどのやくざい", meaning: "obat konsentrasi" },
+  { page: 13, number: 3, word: "食品全体", reading: "「しょくひんぜんたい", meaning: "semua makanan" },
+  { page: 13, number: 4, word: "冷やす", reading: "ひやす", meaning: "dingin" },
+  { page: 13, number: 5, word: "代表적", reading: "「だいひょうてき", meaning: "perwakilan" },
+  { page: 13, number: 6, word: "牡蠣", reading: "かき", meaning: "tiram" },
+  { page: 13, number: 7, word: "汚染", reading: "おせん", meaning: "polusi" },
+  { page: 13, number: 8, word: "大便", reading: "だいぺん", meaning: "kotoran" },
+  { page: 13, number: 9, word: "吐いた", reading: "はいた", meaning: "muntah" },
+  { page: 13, number: 10, word: "次亜塩素酸ナトリウム", reading: "じあえんそさん", meaning: "Natrium hipoklorit" },
+  { page: 13, number: 11, word: "溶液", reading: "ようえき", meaning: "larutan" },
+  { page: 13, number: 12, word: "布巾", reading: "ふきん", meaning: "kain untuk pencuci piring" },
+  { page: 13, number: 13, word: "原則", reading: "げんそく", meaning: "prinsip" },
+  { page: 13, number: 14, word: "対策", reading: "たいさく", meaning: "tindakan" },
+  { page: 13, number: 15, word: "有効", reading: "ゆうこう", meaning: "efektif" },
 
-{
-  id: 17,
-  section: 2,
-  category: "表現",
-  type: "choice",
-  context: "会社で上司に質問があります。",
-  question: "一番自然な表現はどれですか。",
-  options: [
-    "すみません、ちょっとお聞きしたいことがあります。",
-    "ねえ、これ教えて。",
-    "おい、これ何？",
-    "これを教える。"
-  ],
-  answer: 0
-},
+  // Page 14
+  { page: 14, number: 1, word: "食品製造工場", reading: "しょくひんせいぞうこうじょう", meaning: "pabrik pembuatan makanan" },
+  { page: 14, number: 2, word: "持ち込まない", reading: "「もちこまない", meaning: "jangan membawanya masuk" },
+  { page: 14, number: 3, word: "感染", reading: "かんせん", meaning: "infeksi" },
+  { page: 14, number: 4, word: "消毒", reading: "しょうどく", meaning: "desinfeksi" },
+  { page: 14, number: 5, word: "おう吐物", reading: "おうとぶつ", meaning: "muntah" },
+  { page: 14, number: 6, word: "専門用具", reading: "せんもんようぐ", meaning: "alat khusus" },
+  { page: 14, number: 7, word: "処理する", reading: "しょりする", meaning: "proses" },
+  { page: 14, number: 8, word: "広げない", reading: "ひろげない", meaning: "jangan menyebar" },
+  { page: 14, number: 9, word: "カビ", reading: "", meaning: "jamur" },
+  { page: 14, number: 10, word: "増殖", reading: "ぞうしょく", meaning: "berkembang biak" },
+  { page: 14, number: 11, word: "胞子", reading: "ほうし", meaning: "spora" },
+  { page: 14, number: 12, word: "存在", reading: "そんざい", meaning: "adanya" },
+  { page: 14, number: 13, word: "完全", reading: "かんぜん", meaning: "Sempurna" },
+  { page: 14, number: 14, word: "豆", reading: "まめ", meaning: "kacang polong" },
+  { page: 14, number: 15, word: "穀類", reading: "こくるい", meaning: "biji-bijian" },
+  { page: 14, number: 16, word: "生えた", reading: "はえた", meaning: "dewasa" },
+  { page: 14, number: 17, word: "寄生虫", reading: "きせいちゅう", meaning: "parasit" },
+  { page: 14, number: 18, word: "表面", reading: "ひょうめん", meaning: "permukaan" },
+  { page: 14, number: 19, word: "体内", reading: "たいない", meaning: "di dalam tubuh" },
+  { page: 14, number: 20, word: "アニサキス", reading: "", meaning: "anisakis" },
+  { page: 14, number: 21, word: "魚介類", reading: "ぎょかいるい", meaning: "makanan laut" },
+  { page: 14, number: 22, word: "生", reading: "なま", meaning: "mentah" },
 
-{
-  id: 18,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「今、昼ご飯を＿＿＿ところです。」",
-  options: [
-    "食べている",
-    "食べた",
-    "食べるの",
-    "食べますの"
-  ],
-  answer: 0
-},
+  // Page 15
+  { page: 15, number: 1, word: "共通", reading: "きょうつう", meaning: "umum" },
+  { page: 15, number: 2, word: "整理", reading: "せいり", meaning: "meringkas" },
+  { page: 15, number: 3, word: "整頓", reading: "せいとん", meaning: "merapikan" },
+  { page: 15, number: 4, word: "清掃", reading: "せいそう", meaning: "pembersihan" },
+  { page: 15, number: 5, word: "清潔", reading: "せいけつ", meaning: "merawat" },
+  { page: 15, number: 6, word: "習慣付", reading: "しゅうかんづけ", meaning: "membiasakan" },
+  { page: 15, number: 7, word: "しつけ", reading: "", meaning: "disiplin" },
+  { page: 15, number: 8, word: "取出せる", reading: "とりだせる", meaning: "bisa dikeluarkan" },
+  { page: 15, number: 9, word: "順序", reading: "じゅんじょ", meaning: "urutan" },
+  { page: 15, number: 10, word: "数量", reading: "すうりょう", meaning: "kuantitas/jumlah" },
+  { page: 15, number: 11, word: "表示", reading: "ひょうじ", meaning: "menampilkan" },
+  { page: 15, number: 12, word: "磨く", reading: "みがく", meaning: "menggosok" },
+  { page: 15, number: 13, word: "拭いたり", reading: "ふいたり", meaning: "mengelap" },
+  { page: 15, number: 14, word: "見た目", reading: "みため", meaning: "terlihat" },
+  { page: 15, number: 15, word: "とおりに", reading: "", meaning: "sesuai / berdasarkan" },
+  { page: 15, number: 16, word: "実行", reading: "じっこう", meaning: "eksekusi" },
+  { page: 15, number: 17, word: "保つ", reading: "たもつ", meaning: "menjaga" },
+  { page: 15, number: 18, word: "手指", reading: "てゆび", meaning: "jari" },
 
-{
-  id: 19,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「このかばんは軽くて＿＿＿です。」",
-  options: [
-    "使いやすい",
-    "使いやすく",
-    "使いやすかったに",
-    "使うやすい"
-  ],
-  answer: 0
-},
+  // Page 16
+  { page: 16, number: 1, word: "役立ちます", reading: "やくだちます", meaning: "bermanfaat" },
+  { page: 16, number: 2, word: "触れる", reading: "ふれる", meaning: "menyentuh" },
+  { page: 16, number: 3, word: "交差汚染", reading: "こうさおせん", meaning: "kontaminasi silang" },
+  { page: 16, number: 4, word: "使い分け", reading: "つかいわけ", meaning: "Penggunaan yang tepat" },
+  { page: 16, number: 5, word: "通常", reading: "つうじょう", meaning: "biasanya" },
+  { page: 16, number: 6, word: "清潔作業区域", reading: "「せいけつさぎょうくいき", meaning: "area kerja yang bersih" },
+  { page: 16, number: 7, word: "準清潔作業区域", reading: "「じゅんせいけつさぎょうくいき", meaning: "Area kerja semi-bersih" },
+  { page: 16, number: 8, word: "汚染作業区域", reading: "「おせんさぎょうくいき", meaning: "area kerja yang terkontaminasi" },
+  { page: 16, number: 9, word: "ゾーニング", reading: "", meaning: "zonasi" },
+  { page: 16, number: 10, word: "区分衛生管理", reading: "くぶんえいせいかんり", meaning: "manajemen kebersihan terpisah" },
+  { page: 16, number: 11, word: "取り扱い", reading: "とりあつかい", meaning: "penanganan" },
+  { page: 16, number: 12, word: "下処理", reading: "したしょり", meaning: "Persiapan" },
+  { page: 16, number: 13, word: "出荷", reading: "しゅっか", meaning: "pengiriman" },
+  { page: 16, number: 14, word: "詰めた", reading: "つめた", meaning: "diisi" },
 
-{
-  id: 20,
-  section: 2,
-  category: "表現",
-  type: "choice",
-  context: "友達がプレゼントをくれました。",
-  question: "自然な返事はどれですか。",
-  options: [
-    "ありがとう。うれしい！",
-    "どういたしまして。",
-    "ごちそうさまでした。",
-    "お先に失礼します。"
-  ],
-  answer: 0
-},
+  // Page 17
+  { page: 17, number: 1, word: "通らない", reading: "とおらない", meaning: "tidak melewati" },
+  { page: 17, number: 2, word: "ほこり", reading: "", meaning: "debu" },
+  { page: 17, number: 3, word: "不要", reading: "ふよう", meaning: "Tidak perlu" },
+  { page: 17, number: 4, word: "通路", reading: "つうろ", meaning: "lorong" },
+  { page: 17, number: 5, word: "定期的", reading: "ていきてき", meaning: "Secara teratur" },
+  { page: 17, number: 6, word: "ネズミ", reading: "", meaning: "tikus" },
+  { page: 17, number: 7, word: "虫", reading: "むし", meaning: "serangga" },
+  { page: 17, number: 8, word: "状況", reading: "じょうきょう", meaning: "situasi" },
+  { page: 17, number: 9, word: "排水溝", reading: "はいすいこう", meaning: "mengeringkan" },
+  { page: 17, number: 10, word: "ミキサー", reading: "", meaning: "mixer" },
+  { page: 17, number: 11, word: "スライサー", reading: "", meaning: "alat pengiris" },
+  { page: 17, number: 12, word: "分解", reading: "ぶんかい", meaning: "membongkar" },
+  { page: 17, number: 13, word: "目立つ", reading: "めだつ", meaning: "menonjol/mencolok" },
+  { page: 17, number: 14, word: "直接", reading: "ちょくせつ", meaning: "secara langsung" },
 
-{
-  id: 21,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「雨が降っている＿＿＿、出かけます。」",
-  options: [
-    "のに",
-    "のでに",
-    "ばかり",
-    "ように"
-  ],
-  answer: 0
-},
+  // Page 18
+  { page: 18, number: 1, word: "乾燥する", reading: "かんそうする", meaning: "pengeringan" },
+  { page: 18, number: 2, word: "たわし", reading: "", meaning: "penggosok" },
+  { page: 18, number: 3, word: "濡れる", reading: "ぬれる", meaning: "menjadi basah" },
+  { page: 18, number: 4, word: "発生", reading: "はっせい", meaning: "kejadian" },
+  { page: 18, number: 5, word: "皮膚", reading: "ひふ", meaning: "kulit" },
+  { page: 18, number: 6, word: "保管庫", reading: "ほかんこ", meaning: "gudang" },
+  { page: 18, number: 7, word: "名称", reading: "めいしょう", meaning: "nama" },
 
-{
-  id: 22,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「明日は忙しい＿＿＿です。」",
-  options: [
-    "はず",
-    "ために",
-    "ところ",
-    "ばかり"
-  ],
-  answer: 0
-},
+  // Page 19-21
+  { page: 19, number: 1, word: "健康", reading: "けんこう", meaning: "kesehatan" },
+  { page: 19, number: 2, word: "職場", reading: "しょくぱ", meaning: "tempat" },
+  { page: 19, number: 3, word: "定期的", reading: "ていきてき", meaning: "secara teratur" },
+  { page: 19, number: 4, word: "健康診断", reading: "けんこうしんだん", meaning: "cek kesehatan" },
+  { page: 19, number: 5, word: "検便", reading: "けんべん", meaning: "tinja" },
+  { page: 19, number: 6, word: "汚れ", reading: "よごれ", meaning: "kotor" },
+  { page: 19, number: 7, word: "異物", reading: "いぶつ", meaning: "Benda asing" },
+  { page: 19, number: 8, word: "更衣室", reading: "こういしつ", meaning: "ruang ganti" },
+  { page: 19, number: 9, word: "つけ爪", reading: "つけつめ", meaning: "palsu" },
+  { page: 19, number: 10, word: "イヤリング", reading: "", meaning: "-anting" },
+  { page: 19, number: 11, word: "ネックレス", reading: "", meaning: "kalung" },
+  { page: 19, number: 12, word: "ピアス", reading: "", meaning: "anting-anting" },
+  { page: 19, number: 13, word: "鏡", reading: "かがみ", meaning: "cermin" },
+  { page: 19, number: 14, word: "衣服", reading: "いふく", meaning: "pakaian" },
+  { page: 20, number: 1, word: "順序", reading: "じゅんじょ", meaning: "urutan" },
+  { page: 20, number: 2, word: "頭髮", reading: "とうはつ", meaning: "rambut" },
+  { page: 20, number: 3, word: "ブラッシング", reading: "", meaning: "menyisir" },
+  { page: 20, number: 4, word: "かぶります", reading: "", meaning: "memakai (kepala)" },
+  { page: 20, number: 5, word: "留めます", reading: "とめます", meaning: "kancingkan" },
+  { page: 20, number: 6, word: "服装", reading: "ふくそう", meaning: "pakaian" },
+  { page: 20, number: 7, word: "粘着ローラ", reading: "「ねんちゃく", meaning: "rol perekat" },
+  { page: 21, number: 1, word: "エアーシャワー", reading: "", meaning: "pancuran udara" },
+  { page: 21, number: 2, word: "履き物", reading: "はきもの", meaning: "kaki" },
+  { page: 21, number: 3, word: "履き替える", reading: "はきかえる", meaning: "sepatu" },
+  { page: 21, number: 4, word: "絞り", reading: "しぼり", meaning: "adhesi (keadaan melekat pda benda lain)" },
 
-{
-  id: 23,
-  section: 2,
-  category: "表現",
-  type: "choice",
-  context: "店員にサイズを聞きたいです。",
-  question: "一番自然な言い方はどれですか。",
-  options: [
-    "すみません。もう少し大きいサイズはありますか。",
-    "大きいの、ある？",
-    "大きいサイズをある。",
-    "これ、大きくする？"
-  ],
-  answer: 0
-},
+  // Page 22-23
+  { page: 22, number: 1, word: "端", reading: "はし", meaning: "bukaan" },
+  { page: 22, number: 2, word: "襟", reading: "えり", meaning: "akhir" },
+  { page: 22, number: 3, word: "付着", reading: "ふちゃく", meaning: "kerah" },
+  { page: 22, number: 5, word: "縦襟", reading: "たてえり", meaning: "kerah vertikal" },
+  { page: 23, number: 6, word: "エプロン", reading: "", meaning: "celemek" },
+  { page: 23, number: 7, word: "腕カバー", reading: "うでカバー", meaning: "penutup lengan" },
+  { page: 23, number: 8, word: "ふかく", reading: "", meaning: "dalam kombinasi" },
+  { page: 23, number: 9, word: "合ってる", reading: "あってる", meaning: "cocok" },
+  { page: 23, number: 10, word: "袖", reading: "そで", meaning: "lengan baju" },
 
-{
-  id: 24,
-  section: 2,
-  category: "文法",
-  type: "choice",
-  question: "「日本語が上手に＿＿＿ようになりました。」",
-  options: [
-    "話せる",
-    "話した",
-    "話すの",
-    "話さない"
-  ],
-  answer: 0
-},
+  // Page 24
+  { page: 24, number: 1, word: "直前", reading: "直前", meaning: "Sebelum" },
+  { page: 24, number: 2, word: "盛り付け", reading: "もりつけ", meaning: "pengaturan" },
+  { page: 24, number: 3, word: "汚染作業区域", reading: "「おせんさぎょうくいき", meaning: "area kerja yang terkontaminasi" },
+  { page: 24, number: 4, word: "非汚染作業区域", reading: "「ひおせんさぎょうくいき", meaning: "area kerja yang tidak terkontaminasi" },
 
-/* =========================
-   SECTION 3
-   25-36
-========================= */
+  // Page 25
+  { page: 25, number: 1, word: "流水", reading: "りゅうすい", meaning: "air mengalir" },
+  { page: 25, number: 2, word: "せっけん", reading: "", meaning: "sabun mandi" },
+  { page: 25, number: 3, word: "指の先", reading: "ゆびのさき", meaning: "ujung jari" },
+  { page: 25, number: 4, word: "秒間程度", reading: "「びょうかんていど", meaning: "sekitar detik" },
+  { page: 25, number: 5, word: "流す", reading: "ながす", meaning: "mengalir" },
+  { page: 25, number: 6, word: "乾かす", reading: "かわかす", meaning: "kering" },
+  { page: 25, number: 7, word: "両手", reading: "りょうて", meaning: "kedua tangan" },
+  { page: 25, number: 8, word: "吹付", reading: "ふきつけ", meaning: "penyemprotan" },
+  { page: 25, number: 9, word: "すりこむ", reading: "", meaning: "gosokkan" },
+  { page: 25, number: 1, word: "交換", reading: "こうかん", meaning: "menukarkan/ mengganti" },
+  { page: 25, number: 2, word: "徹底", reading: "てってい", meaning: "ketelitian" },
+  { page: 25, number: 3, word: "殺菌済み", reading: "さっきんずみ", meaning: "disterilkan" },
+  { page: 25, number: 4, word: "不備", reading: "ふび", meaning: "kekurangan" },
 
-{
-  id: 25,
-  section: 3,
-  category: "内容理解",
-  type: "listening",
-  audio: "男の人：明日の朝、七時に駅で会いませんか。女の人：すみません。七時半でもいいですか。男の人：はい、わかりました。",
-  question: "二人は何時に会いますか。",
-  options: [
-    "7時",
-    "7時半",
-    "8時",
-    "8時半"
-  ],
-  answer: 1
-},
+  // Page 26
+  { page: 26, number: 5, word: "たんや", reading: "", meaning: "Tanya" },
+  { page: 26, number: 6, word: "つば", reading: "", meaning: "meludah" },
+  { page: 26, number: 7, word: "吐いて", reading: "はいて", meaning: "Muntah" },
+  { page: 26, number: 8, word: "せき", reading: "", meaning: "batuk" },
+  { page: 26, number: 9, word: "関係", reading: "かんけい", meaning: "hubungan" },
+  { page: 26, number: 1, word: "ホチキスの針", reading: "はり", meaning: "stapler" },
+  { page: 26, number: 2, word: "臭い", reading: "におい", meaning: "bau" },
+  { page: 26, number: 3, word: "品質", reading: "ひんしつ", meaning: "kualitas" },
+  { page: 26, number: 4, word: "影響", reading: "えいきょう", meaning: "pengaruh" },
+  { page: 26, number: 5, word: "香水", reading: "こうすい", meaning: "parfum" },
+  { page: 26, number: 6, word: "意図的", reading: "いとてき", meaning: "disengaja" },
+  { page: 26, number: 7, word: "記録", reading: "きろく", meaning: "catatan" },
+  { page: 26, number: 8, word: "倉庫", reading: "そうこ", meaning: "gudang" },
+  { page: 26, number: 9, word: "外部", reading: "がいぶ", meaning: "luar" },
 
-{
-  id: 26,
-  section: 3,
-  category: "内容理解",
-  type: "listening",
-  audio: "女の人：このシャツはいくらですか。店員：三千円です。女の人：じゃあ、これをください。",
-  question: "シャツはいくらですか。",
-  options: [
-    "1,000円",
-    "2,000円",
-    "3,000円",
-    "4,000円"
-  ],
-  answer: 2
-},
+  // Page 27
+  { page: 27, number: 10, word: "照らし合わせて", reading: "てらしあわせて", meaning: "dibandingkan" },
+  { page: 27, number: 11, word: "届く", reading: "とどく", meaning: "sampai" },
+  { page: 27, number: 12, word: "受入検査", reading: "うけいれけんさ", meaning: "Inspeksi/pengecekan penerimaan" },
+  { page: 27, number: 13, word: "期限", reading: "きげん", meaning: "tenggang waktu" },
+  { page: 27, number: 14, word: "保存", reading: "ほぞん", meaning: "menyimpan" },
+  { page: 27, number: 15, word: "表示", reading: "ひょうじ", meaning: "menampilkan" },
+  { page: 27, number: 16, word: "品温", reading: "ひんおん", meaning: "Suhu produk" },
+  { page: 27, number: 17, word: "腐敗", reading: "ふはい", meaning: "busuk" },
+  { page: 27, number: 18, word: "包装", reading: "ほうそう", meaning: "kemasan" },
 
-{
-  id: 27,
-  section: 3,
-  category: "内容理解",
-  type: "listening",
-  audio: "男の人：田中さんは今日来ますか。女の人：いいえ、今日は病院へ行くと言っていました。",
-  question: "田中さんはどこへ行きますか。",
-  options: [
-    "学校",
-    "会社",
-    "病院",
-    "駅"
-  ],
-  answer: 2
-},
+  // Page 28
+  { page: 28, number: 1, word: "消費期限", reading: "しょうひきげん", meaning: "tanggal habis tempo" },
+  { page: 28, number: 2, word: "適切", reading: "てきせつ", meaning: "sesuai" },
+  { page: 28, number: 3, word: "返品", reading: "へんぴん", meaning: "kembali" },
+  { page: 28, number: 4, word: "交換", reading: "こうかん", meaning: "menukarkan" },
+  { page: 28, number: 5, word: "合格", reading: "ごうかく", meaning: "lulus" },
 
-{
-  id: 28,
-  section: 3,
-  category: "店でのやりとり",
-  type: "listening",
-  audio: "店員：袋はご利用ですか。女の人：はい、お願いします。",
-  question: "女の人は何をお願いしますか。",
-  options: [
-    "水",
-    "袋",
-    "レシート",
-    "傘"
-  ],
-  answer: 1
-},
+  // Page 29
+  { page: 29, number: 1, word: "種類", reading: "しゅるい", meaning: "jenis" },
+  { page: 29, number: 2, word: "異なる", reading: "ことなる", meaning: "berbeda" },
+  { page: 29, number: 3, word: "冷凍水産物", reading: "「れいとうすいさんぶつ", meaning: "makanan laut beku" },
+  { page: 29, number: 1, word: "隙間", reading: "すきま", meaning: "celah" },
+  { page: 29, number: 2, word: "詰め込んで", reading: "つめこんで", meaning: "Penuh sesak" },
+  { page: 29, number: 3, word: "全体", reading: "ぜんたい", meaning: "seluruh" },
+  { page: 29, number: 4, word: "回らない", reading: "まわらない", meaning: "tidak berputar" },
+  { page: 29, number: 5, word: "割詰めた", reading: "わりつめた", meaning: "potong itu" },
+  { page: 29, number: 6, word: "互いに", reading: "たがいに", meaning: "satu sama lain" },
+  { page: 29, number: 7, word: "冷やす", reading: "ひやす", meaning: "dingin" },
+  { page: 29, number: 8, word: "節電", reading: "せつでん", meaning: "penghematan energi" },
+  { page: 29, number: 9, word: "低温", reading: "ていおん", meaning: "suhu rendah" },
+  { page: 29, number: 10, word: "保つ", reading: "たもつ", meaning: "menyimpan" },
 
-{
-  id: 29,
-  section: 3,
-  category: "公共機関",
-  type: "listening",
-  audio: "駅員：電車は三番線から出ます。",
-  question: "電車は何番線から出ますか。",
-  options: [
-    "一番線",
-    "二番線",
-    "三番線",
-    "四番線"
-  ],
-  answer: 2
-},
+  // Page 30
+  { page: 30, number: 11, word: "定期的", reading: "ていきてき", meaning: "Secara teratur" },
+  { page: 30, number: 12, word: "測定", reading: "そくてい", meaning: "pengukuran" },
+  { page: 30, number: 13, word: "結果", reading: "けっか", meaning: "hasil" },
+  { page: 30, number: 14, word: "食品衛生法", reading: "「しょくひんえいせいほう", meaning: "UU Sanitasi Pangan" },
+  { page: 30, number: 15, word: "賞味期限", reading: "しょうきげん", meaning: "tanggal habis tempo" },
+  { page: 30, number: 16, word: "賞味期限", reading: "しょうみきげん", meaning: "tanggal habis tempo" },
+  { page: 30, number: 17, word: "消費期限", reading: "しょうひきげん", meaning: "tanggal habis tempo" },
+  { page: 30, number: 18, word: "加工食品", reading: "かこうしょくひん", meaning: "makanan olahan" },
+  { page: 30, number: 19, word: "企業", reading: "きぎょう", meaning: "perusahaan" },
+  { page: 30, number: 20, word: "未開封", reading: "みかいふう", meaning: "Belum dibuka" },
 
-{
-  id: 30,
-  section: 3,
-  category: "内容理解",
-  type: "listening",
-  audio: "女の人：週末、山へ行きませんか。男の人：いいですね。でも、日曜日は仕事があります。土曜日なら大丈夫です。",
-  question: "男の人はいつ山へ行けますか。",
-  options: [
-    "金曜日",
-    "土曜日",
-    "日曜日",
-    "月曜日"
-  ],
-  answer: 1
-},
+  // Page 31
+  { page: 31, number: 1, word: "納品", reading: "のうひん", meaning: "pengiriman bahan" },
+  { page: 31, number: 2, word: "下処理", reading: "したしょり", meaning: "persiapan" },
+  { page: 31, number: 3, word: "工夫", reading: "くふ", meaning: "kecerdikan" },
+  { page: 31, number: 4, word: "解凍", reading: "かいとう", meaning: "Pencairan" },
+  { page: 31, number: 5, word: "加温", reading: "かおん", meaning: "Pemanasan" },
+  { page: 31, number: 6, word: "自然", reading: "しぜん", meaning: "alami" },
+  { page: 31, number: 7, word: "水道", reading: "すいどう", meaning: "persediaan air / air PAM" },
+  { page: 31, number: 1, word: "汁", reading: "しる", meaning: "cairan" },
+  { page: 31, number: 2, word: "ドリップ", reading: "", meaning: "menetes" },
+  { page: 31, number: 3, word: "トレー", reading: "", meaning: "baki/nampan" },
+  { page: 31, number: 4, word: "網目トレー", reading: "あまみトレー", meaning: "nampan jaring" },
+  { page: 31, number: 5, word: "排水", reading: "", meaning: "drainase / saluran pembuangan" },
+  { page: 31, number: 6, word: "密閉", reading: "みっぺい", meaning: "tertutup" },
+  { page: 31, number: 7, word: "移し替えて", reading: "うつしかえて", meaning: "pindahkan itu" },
+  { page: 31, number: 8, word: "固形", reading: "こけい", meaning: "padat" },
+  { page: 31, number: 9, word: "ペースト", reading: "", meaning: "tempel" },
+  { page: 31, number: 10, word: "劣化", reading: "れっか", meaning: "kemerosotan / menurun" },
+  { page: 31, number: 11, word: "適正濃度", reading: "てきせいのうど", meaning: "konsentrasi yang sesuai" },
+  { page: 31, number: 12, word: "食塩水", reading: "しょくえんすい", meaning: "larutan garam" },
 
-{
-  id: 31,
-  section: 3,
-  category: "指示",
-  type: "listening",
-  audio: "先生：テストが終わった人は、机の上に紙を置いてください。",
-  question: "テストが終わった人は何をしますか。",
-  options: [
-    "帰ります",
-    "先生を呼びます",
-    "紙を机に置きます",
-    "もう一度テストをします"
-  ],
-  answer: 2
-},
+  // Page 32
+  { page: 32, number: 13, word: "工程", reading: "こうてい", meaning: "proses" },
+  { page: 32, number: 14, word: "選別", reading: "せんべつ", meaning: "penyortiran" },
+  { page: 32, number: 15, word: "分別", reading: "ぶんべつ", meaning: "penyortiran" },
+  { page: 32, number: 16, word: "裁断", reading: "さいだん", meaning: "pemotongan" },
+  { page: 32, number: 17, word: "魚のウロコ", reading: "さかなのウロコ", meaning: "sisik ikan" },
+  { page: 32, number: 18, word: "確実", reading: "かくじつ", meaning: "kepastian" },
+  { page: 32, number: 19, word: "廃棄する", reading: "はいきする", meaning: "membuang" },
+  { page: 32, number: 20, word: "骨", reading: "ほね", meaning: "tulang" },
+  { page: 32, number: 21, word: "製造", reading: "せいぞう", meaning: "produksi" },
+  { page: 32, number: 22, word: "細断", reading: "さいだん", meaning: "pencacahan" },
+  { page: 32, number: 23, word: "混合", reading: "こんごう", meaning: "pencampuran" },
+  { page: 32, number: 24, word: "成型", reading: "せいけい", meaning: "pencetakan" },
+  { page: 32, number: 25, word: "配管", reading: "はいかん", meaning: "perpipaan" },
 
-{
-  id: 32,
-  section: 3,
-  category: "内容理解",
-  type: "listening",
-  audio: "男の人：コーヒーを飲みますか。女の人：いいえ、今日はお茶にします。",
-  question: "女の人は何を飲みますか。",
-  options: [
-    "コーヒー",
-    "水",
-    "ジュース",
-    "お茶"
-  ],
-  answer: 3
-},
+  // Page 33
+  { page: 33, number: 1, word: "物質", reading: "ぶっしつ", meaning: "bahan" },
+  { page: 33, number: 2, word: "加熱殺菌", reading: "かねつさっきん", meaning: "sterilisasi panas" },
+  { page: 33, number: 3, word: "消化", reading: "しょうか", meaning: "pencernaan" },
+  { page: 33, number: 4, word: "設定", reading: "せってい", meaning: "pengaturan" },
+  { page: 33, number: 5, word: "中心温度", reading: "「ちゅうしんおんど", meaning: "temperatur inti" },
+  { page: 33, number: 6, word: "細菌", reading: "さいきん", meaning: "bakteri" },
+  { page: 33, number: 7, word: "かたまり", reading: "", meaning: "gumpalan" },
+  { page: 33, number: 8, word: "確かめます", reading: "たしかめます", meaning: "akan saya periksa" },
+  { page: 33, number: 9, word: "冷却", reading: "れいきゃく", meaning: "pendinginan" },
 
-{
-  id: 33,
-  section: 3,
-  category: "公共機関",
-  type: "listening",
-  audio: "アナウンス：ただいま一番線の電車は遅れています。二番線をご利用ください。",
-  question: "乗客はどの線を利用しますか。",
-  options: [
-    "一番線",
-    "二番線",
-    "三番線",
-    "四番線"
-  ],
-  answer: 1
-},
+  // Page 34
+  { page: 34, number: 1, word: "冷える", reading: "ひえる", meaning: "dingin" },
+  { page: 34, number: 2, word: "増える", reading: "ふえる", meaning: "meningkatkan" },
+  { page: 34, number: 3, word: "具大的", reading: "ぐだいてき", meaning: "secara khusus" },
+  { page: 34, number: 4, word: "損なわない", reading: "そこなわない", meaning: "tidak merusak" },
+  { page: 34, number: 5, word: "次亜塩素酸ナトリウム", reading: "じあえんそさん", meaning: "natrium hipoklorit" },
+  { page: 34, number: 6, word: "冷凍", reading: "れいとう", meaning: "beku" },
+  { page: 34, number: 7, word: "保存性", reading: "ほぞんせい", meaning: "umur penyimpanan" },
+  { page: 34, number: 8, word: "生鮮", reading: "せいせん", meaning: "segar" },
+  { page: 34, number: 9, word: "凍結", reading: "とうけつ", meaning: "beku" },
+  { page: 34, number: 10, word: "硬さ", reading: "かたさ", meaning: "kekerasan" },
 
-{
-  id: 34,
-  section: 3,
-  category: "店でのやりとり",
-  type: "listening",
-  audio: "店員：こちらの商品は今日だけ二割引きです。",
-  question: "この商品はどうなっていますか。",
-  options: [
-    "無料です",
-    "値段が高くなっています",
-    "20パーセント安くなっています",
-    "売り切れています"
-  ],
-  answer: 2
-},
+  // Page 35
+  { page: 35, number: 11, word: "弾力", reading: "だんりょく", meaning: "elastisitas" },
+  { page: 35, number: 12, word: "食感", reading: "しょっかん", meaning: "tekstur" },
+  { page: 35, number: 13, word: "風味", reading: "ふうみ", meaning: "rasa" },
+  { page: 35, number: 14, word: "短時間", reading: "たんじかん", meaning: "waktu singkat" },
+  { page: 35, number: 15, word: "急速", reading: "きゅうそく", meaning: "cepat" },
+  { page: 35, number: 1, word: "充填", reading: "じゅうてん", meaning: "isian" },
+  { page: 35, number: 2, word: "包装", reading: "ほうそう", meaning: "kemasan" },
+  { page: 35, number: 3, word: "検査", reading: "けんさ", meaning: "inspeksi/pengecekan" },
+  { page: 35, number: 4, word: "選別", reading: "せんべつ", meaning: "penyortiran" },
+  { page: 35, number: 5, word: "殺菌", reading: "さっきん", meaning: "sterilisasi" },
+  { page: 35, number: 6, word: "危害要因", reading: "きがいよういん", meaning: "faktor bahaya" },
+  { page: 35, number: 7, word: "ボルト", reading: "", meaning: "baut" },
+  { page: 35, number: 8, word: "キャップ", reading: "", meaning: "tutup" },
+  { page: 35, number: 9, word: "内側", reading: "うちがわ", meaning: "di dalam" },
+  { page: 35, number: 10, word: "出荷", reading: "しゅっか", meaning: "pengiriman" },
+  { page: 35, number: 11, word: "印字します", reading: "いんじします", meaning: "mencetak" },
+  { page: 35, number: 12, word: "数字", reading: "すうじ", meaning: "angka" },
+  { page: 35, number: 13, word: "ミス", reading: "", meaning: "kesalahan" },
+  { page: 35, number: 14, word: "発生", reading: "はっせい", meaning: "kejadian" },
+  { page: 35, number: 15, word: "穴", reading: "あな", meaning: "lubang" },
+  { page: 35, number: 16, word: "空気", reading: "くうき", meaning: "udara" },
+  { page: 35, number: 17, word: "もれたり", reading: "", meaning: "Bocor" },
+  { page: 35, number: 18, word: "中身", reading: "なかみ", meaning: "isi" },
+  { page: 35, number: 19, word: "金属探知機", reading: "「きんぞくたんちき", meaning: "detektor logam" },
+  { page: 35, number: 20, word: "硬質異物", reading: "こうしついぶつ", meaning: "benda asing yang keras" },
+  { page: 35, number: 21, word: "管理", reading: "かんり", meaning: "pengelolaan" },
+  { page: 35, number: 22, word: "テストピース", reading: "", meaning: "Benda uji" },
+  { page: 35, number: 23, word: "正常", reading: "せいじょう", meaning: "normal" },
 
-{
-  id: 35,
-  section: 3,
-  category: "内容理解",
-  type: "listening",
-  audio: "女の人：明日は雨みたいですよ。男の人：そうですか。じゃあ、傘を持っていきます。",
-  question: "男の人は何を持っていきますか。",
-  options: [
-    "帽子",
-    "傘",
-    "かばん",
-    "水"
-  ],
-  answer: 1
-},
+  // Page 36
+  { page: 36, number: 1, word: "機能", reading: "きのう", meaning: "fungsi" },
+  { page: 36, number: 2, word: "時点", reading: "じてん", meaning: "titik waktu" },
+  { page: 36, number: 3, word: "X線異物検出器", reading: "Xせんいぶつけんしゅつき", meaning: "detektor benda asing sinar-X" },
+  { page: 36, number: 4, word: "数量", reading: "すうりょう", meaning: "kuantitas" },
+  { page: 36, number: 5, word: "不足", reading: "ふそく", meaning: "kekurangan" },
+  { page: 36, number: 6, word: "形状不良品", reading: "「けいじょうふりょうひん", meaning: "Bentuk produk cacat" },
+  { page: 36, number: 7, word: "プラスチック", reading: "", meaning: "plastik" },
+  { page: 36, number: 8, word: "頼る", reading: "たよる", meaning: "mengandalkan" },
+  { page: 36, number: 9, word: "【微生物検査", reading: "「びせいぶつけんさ", meaning: "pengujian mikroba" },
+  { page: 36, number: 10, word: "法律", reading: "ほうりつ", meaning: "hukum" },
+  { page: 36, number: 11, word: "義務", reading: "ぎむ", meaning: "wajib" },
+  { page: 36, number: 12, word: "項目", reading: "こうもく", meaning: "barang" },
+  { page: 36, number: 13, word: "自主的", reading: "じしゅてき", meaning: "Sukarela" },
+  { page: 36, number: 14, word: "配送", reading: "はいそう", meaning: "pengiriman" },
+  { page: 36, number: 15, word: "サンプル", reading: "", meaning: "Sampel" },
+  { page: 36, number: 16, word: "クレーム", reading: "", meaning: "mengeklaim" },
+  { page: 36, number: 17, word: "時期", reading: "じき", meaning: "musim" },
+  { page: 36, number: 1, word: "一定の割合", reading: "いっていのわりあい", meaning: "persentase tertentu" },
+  { page: 36, number: 2, word: "抜き出す", reading: "ぬきだす", meaning: "mengeluarkan" },
+  { page: 36, number: 3, word: "保管参照", reading: "「ほかんさんしょう", meaning: "referensi penyimpanan" },
+  { page: 36, number: 4, word: "輸送中", reading: "ゆそうちゅう", meaning: "sedang transit" },
+  { page: 36, number: 5, word: "品質", reading: "ひんしつ", meaning: "kualitas" },
+  { page: 36, number: 6, word: "劣化", reading: "れっか", meaning: "kemerosotan" },
 
-{
-  id: 36,
-  section: 3,
-  category: "指示",
-  type: "listening",
-  audio: "アナウンス：忘れ物に気をつけてください。電車を降りる前に、座席の下を確認してください。",
-  question: "電車を降りる前に何をしますか。",
-  options: [
-    "切符を買います",
-    "座席の下を確認します",
-    "駅員に電話します",
-    "電車に戻ります"
-  ],
-  answer: 1
-},
+  // Page 37
+  { page: 37, number: 7, word: "特別", reading: "とくべつ", meaning: "spesial" },
+  { page: 37, number: 8, word: "仕組み", reading: "しくみ", meaning: "struktur" },
+  { page: 37, number: 9, word: "調べる", reading: "しらべる", meaning: "menyelidiki" },
+  { page: 37, number: 10, word: "含む", reading: "ふくむ", meaning: "termasuk" },
+  { page: 37, number: 11, word: "分析", reading: "ぶんせき", meaning: "analisis" },
+  { page: 37, number: 12, word: "管理基準", reading: "「かんりきじゅん", meaning: "standar manajemen" },
+  { page: 37, number: 13, word: "実行", reading: "じっこう", meaning: "eksekusi" },
+  { page: 37, number: 14, word: "監視", reading: "かんし", meaning: "pengawasan" },
+  { page: 37, number: 15, word: "原則", reading: "げんそく", meaning: "prinsip" },
+  { page: 37, number: 16, word: "従って", reading: "したがって", meaning: "sesuai" },
+  { page: 37, number: 17, word: "運用される", reading: "うんようされる", meaning: "dioperasikan" },
 
-/* =========================
-   SECTION 4
-   37-50
-========================= */
+  // Page 38
+  { page: 38, number: 1, word: "判断", reading: "はんだん", meaning: "pertimbangan" },
+  { page: 38, number: 2, word: "改善措置", reading: "「かいぜんそち", meaning: "langkah-langkah perbaikan" },
+  { page: 38, number: 3, word: "逸脱", reading: "いつだつ", meaning: "menyimpang" },
+  { page: 38, number: 4, word: "検証方法", reading: "「けんしょうほうほう", meaning: "metode verifikasi" },
+  { page: 38, number: 5, word: "除去", reading: "じょきょ", meaning: "menghilangkan" },
+  { page: 38, number: 6, word: "低減", reading: "ていげん", meaning: "mengurangi" },
+  { page: 38, number: 7, word: "有効", reading: "ゆうこう", meaning: "efektif" },
+  { page: 38, number: 8, word: "計画", reading: "けいかく", meaning: "rencana" },
+  { page: 38, number: 9, word: "記録", reading: "きろく", meaning: "catatan" },
+  { page: 38, number: 10, word: "内容", reading: "ないよう", meaning: "isi" },
+  { page: 38, number: 11, word: "文章", reading: "ぶんしょ", meaning: "kalimat" },
+  { page: 38, number: 12, word: "実際", reading: "じっさい", meaning: "sebenarnya" },
 
-{
-  id: 37,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "田中さんへ\n\n明日の会議は10時からです。場所は3階の会議室です。9時50分までに来てください。\n\n山田",
-  question: "会議は何時からですか。",
-  options: [
-    "9時50分",
-    "10時",
-    "10時50分",
-    "11時"
-  ],
-  answer: 1
-},
+  // Page 39
+  { page: 39, number: 1, word: "惣菜", reading: "そうざい", meaning: "lauk pauk" },
+  { page: 39, number: 2, word: "加熱調理する", reading: "「かねつちょうりする", meaning: "memasak" },
+  { page: 39, number: 3, word: "管理基準", reading: "かんりきじゅん", meaning: "standar manajemen" },
+  { page: 39, number: 4, word: "重要管理点", reading: "「じゅうようかんりてん", meaning: "titik kontrol penting" },
+  { page: 39, number: 5, word: "代表的", reading: "だいひょうてき", meaning: "umum" },
+  { page: 39, number: 6, word: "具体的", reading: "ぐたいてき", meaning: "secara khusus" },
+  { page: 39, number: 7, word: "参照", reading: "さんしょう", meaning: "referensi" },
 
-{
-  id: 38,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "今日は雨なので、私は家で料理をしました。昼ご飯にカレーを作りました。",
-  question: "今日は何をしましたか。",
-  options: [
-    "山へ行きました",
-    "映画を見ました",
-    "料理をしました",
-    "買い物をしました"
-  ],
-  answer: 2
-},
+  // Page 40
+  { page: 40, number: 1, word: "加熱ゾーン", reading: "かねつゾーン", meaning: "zona pemanasan" },
+  { page: 40, number: 2, word: "通る", reading: "とおる", meaning: "melewati" },
+  { page: 40, number: 3, word: "速度", reading: "そくど", meaning: "kecepatan" },
+  { page: 40, number: 4, word: "調整", reading: "ちょうせい", meaning: "pengaturan" },
+  { page: 40, number: 5, word: "不足", reading: "ぶそく", meaning: "kekurangan" },
+  { page: 40, number: 6, word: "廃棄する", reading: "はいきする", meaning: "membuang" },
+  { page: 40, number: 7, word: "実施した", reading: "じっしした", meaning: "dilakukan" },
+  { page: 40, number: 8, word: "管理手段", reading: "かんりしゅだん", meaning: "langkah-langkah pengelolaan" },
+  { page: 40, number: 9, word: "手順", reading: "てじゅん", meaning: "prosedur" },
+  { page: 40, number: 10, word: "あらかじめ", reading: "", meaning: "di muka" },
+  { page: 40, number: 11, word: "ハンバーグ", reading: "", meaning: "roti isi daging" },
+  { page: 40, number: 12, word: "殺菌液の濃度", reading: "さっきんえきののうど", meaning: "konsentrasi larutan sterilisasi" },
+  { page: 40, number: 13, word: "計る", reading: "はかる", meaning: "ukuran" },
+  { page: 40, number: 14, word: "事実", reading: "じじつ", meaning: "fakta" },
+  { page: 40, number: 15, word: "絶対", reading: "ぜったい", meaning: "mutlak" },
+  { page: 40, number: 16, word: "修正する", reading: "しゅうせいする", meaning: "memperbaiki" },
 
-{
-  id: 39,
-  section: 4,
-  category: "情報検索",
-  type: "reading",
-  passage: "スーパー\n営業時間\n月曜日〜金曜日 9:00〜21:00\n土曜日・日曜日 10:00〜20:00",
-  question: "日曜日は何時までですか。",
-  options: [
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00"
-  ],
-  answer: 2
-},
+  // Page 42
+  { page: 42, number: 1, word: "労働災害", reading: "「ろうどうさいがい", meaning: "kecelakaan industri" },
+  { page: 42, number: 2, word: "経験", reading: "けいけん", meaning: "pengalaman" },
+  { page: 42, number: 3, word: "関係", reading: "かんけい", meaning: "hubungan" },
+  { page: 42, number: 4, word: "全て", reading: "すべて", meaning: "semua" },
+  { page: 42, number: 5, word: "未熟練作業者", reading: "「みじゅくれんさぎょうしゃ", meaning: "pekerja tidak terampil" },
 
-{
-  id: 40,
-  section: 4,
-  category: "情報検索",
-  type: "reading",
-  passage: "スポーツセンター\nプール：9:00〜18:00\nジム：10:00〜21:00\n休み：火曜日",
-  question: "火曜日について正しいものはどれですか。",
-  options: [
-    "プールだけ休みです。",
-    "ジムだけ休みです。",
-    "全部休みです。",
-    "午前だけ休みです。"
-  ],
-  answer: 2
-},
+  // Page 43
+  { page: 43, number: 6, word: "未満", reading: "みまん", meaning: "kurang dari" },
+  { page: 43, number: 7, word: "占める", reading: "しめる", meaning: "menempati" },
+  { page: 43, number: 8, word: "割合", reading: "「わりあい", meaning: "perbandingan" },
+  { page: 43, number: 9, word: "慣れてない", reading: "なれてない", meaning: "belum terbiasa" },
+  { page: 43, number: 10, word: "気が付いてない", reading: "きがついてない", meaning: "tidak menyadarinya" },
+  { page: 43, number: 11, word: "多いじゅん", reading: "おおいじゅん", meaning: "kebanyakan" },
+  { page: 43, number: 12, word: "転倒", reading: "てんとう", meaning: "jatuh" },
+  { page: 43, number: 13, word: "はさまれ", reading: "", meaning: "terjepit" },
+  { page: 43, number: 14, word: "巻き込まれ", reading: "まきこまれ", meaning: "kelilit / terjepit" },
+  { page: 43, number: 15, word: "切れる", reading: "きれる", meaning: "terpotong" },
+  { page: 43, number: 16, word: "擦れ", reading: "こすれ", meaning: "menggosok" },
 
-{
-  id: 41,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "明日は会社の休みです。私は友達と映画を見る予定です。映画のあとで、駅の近くのレストランで晩ご飯を食べます。",
-  question: "映画のあとで何をしますか。",
-  options: [
-    "会社へ行きます",
-    "レストランで食事をします",
-    "家で寝ます",
-    "買い物をします"
-  ],
-  answer: 1
-},
+  // Page 44
+  { page: 44, number: 1, word: "主な", reading: "おもな", meaning: "utama" },
+  { page: 44, number: 2, word: "つまずいたり", reading: "", meaning: "tersandung atau tersandung" },
+  { page: 44, number: 3, word: "滑る", reading: "すべる", meaning: "licin" },
+  { page: 44, number: 4, word: "打ったり", reading: "うったり", meaning: "memukul" },
+  { page: 44, number: 5, word: "折り", reading: "おり", meaning: "patah" },
+  { page: 44, number: 6, word: "骨", reading: "ほね", meaning: "tulang" },
+  { page: 44, number: 7, word: "コンベアのギア", reading: "", meaning: "roda gigi konveyor" },
+  { page: 44, number: 8, word: "つぶれたり", reading: "", meaning: "hancur" },
+  { page: 44, number: 9, word: "はさまる", reading: "", meaning: "terjepit" },
+  { page: 44, number: 10, word: "包丁", reading: "ほうちょう", meaning: "pisau" },
+  { page: 44, number: 11, word: "詰まって手", reading: "つまってて", meaning: "tanganku tersangkut" },
+  { page: 44, number: 12, word: "階段", reading: "かいだん", meaning: "tangga" },
+  { page: 44, number: 13, word: "はしご", reading: "", meaning: "tangga" },
+  { page: 44, number: 14, word: "脚立", reading: "きゃたつ", meaning: "tangga segitiga" },
+  { page: 44, number: 15, word: "捻挫する", reading: "「ねんざする", meaning: "keseleo" },
+  { page: 44, number: 16, word: "オーブン", reading: "", meaning: "oven" },
+  { page: 44, number: 17, word: "全身", reading: "ぜんしん", meaning: "seluruh tubuh" },
 
-{
-  id: 42,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "すみません。今日は熱があるので、仕事を休みます。明日は元気になったら会社へ行きます。",
-  question: "この人は今日はどうしますか。",
-  options: [
-    "会社へ行きます",
-    "仕事を休みます",
-    "旅行します",
-    "病院で働きます"
-  ],
-  answer: 1
-},
+  // Page 45
+  { page: 45, number: 1, word: "腰痛", reading: "ようつう", meaning: "nyeri punggung bawah" },
+  { page: 45, number: 2, word: "繰り返す", reading: "くりかえす", meaning: "mengulang" },
+  { page: 45, number: 3, word: "熱中症", reading: "「ねっちゅうしょう", meaning: "struk akibat panas" },
+  { page: 45, number: 4, word: "湿度", reading: "しつど", meaning: "kelembaban" },
+  { page: 45, number: 5, word: "体内", reading: "たいない", meaning: "di dalam tubuh" },
+  { page: 45, number: 6, word: "水分", reading: "すいぶん", meaning: "kelembaban" },
+  { page: 45, number: 7, word: "塩分", reading: "えんぶん", meaning: "garam" },
+  { page: 45, number: 8, word: "崩れる", reading: "くずれる", meaning: "runtuh" },
+  { page: 45, number: 9, word: "体温調節", reading: "「たいおんちょうせつ", meaning: "pengaturan suhu tubuh" },
+  { page: 45, number: 10, word: "激突", reading: "げきとつ", meaning: "bentrokan/tabrakan" },
+  { page: 45, number: 11, word: "目標", reading: "もくひょう", meaning: "hasil" },
+  { page: 45, number: 12, word: "活動", reading: "かつどう", meaning: "aktivitas" },
 
-{
-  id: 43,
-  section: 4,
-  category: "情報検索",
-  type: "reading",
-  passage: "バス時刻表\n駅 → 市役所\n8:00\n8:30\n9:00\n9:30\n10:00",
-  question: "8時30分の次のバスは何時ですか。",
-  options: [
-    "8:45",
-    "9:00",
-    "9:15",
-    "9:30"
-  ],
-  answer: 1
-},
+  // Page 46
+  { page: 46, number: 1, word: "不要なもの", reading: "「ふようなもの", meaning: "tidak perlu" },
+  { page: 46, number: 2, word: "状態", reading: "じょうたい", meaning: "situasi" },
+  { page: 46, number: 3, word: "保ちます", reading: "たもちます", meaning: "menjaga" },
+  { page: 46, number: 4, word: "動線", reading: "どうせん", meaning: "garis arus" },
+  { page: 46, number: 5, word: "枠の中", reading: "「わくのなか", meaning: "di dalam bingkai" },
+  { page: 46, number: 6, word: "床のテープ", reading: "ゆかのテープ", meaning: "pita lantai" },
+  { page: 46, number: 7, word: "沿って", reading: "そって", meaning: "bersama" },
+  { page: 46, number: 8, word: "減ります", reading: "へります", meaning: "berkurang" },
+  { page: 46, number: 9, word: "つながります", reading: "", meaning: "terhubung" },
+  { page: 46, number: 10, word: "感染症", reading: "「かんせんしょう", meaning: "Infeksi" },
+  { page: 46, number: 11, word: "役立ちます", reading: "やくだちます", meaning: "bermanfaat/membantu" },
 
-{
-  id: 44,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "私は日本に来てから、毎朝電車で会社へ行っています。会社は駅から歩いて10分ぐらいです。",
-  question: "会社は駅からどのぐらいですか。",
-  options: [
-    "5分",
-    "10分",
-    "20分",
-    "30分"
-  ],
-  answer: 1
-},
+  // Page 47
+  { page: 47, number: 12, word: "長袖", reading: "ながそで", meaning: "lengan panjang" },
+  { page: 47, number: 13, word: "袖口", reading: "そでぐち", meaning: "manset (bagian ujung lengan baju)" },
+  { page: 47, number: 14, word: "袖", reading: "そで", meaning: "lengan baju" },
+  { page: 47, number: 15, word: "まくり上げない", reading: "まくりあげない", meaning: "Jangan menggulungnya" },
+  { page: 47, number: 1, word: "安全保護具", reading: "あんぜんほごぐ", meaning: "peralatan perlindungan keselamatan" },
+  { page: 47, number: 2, word: "高所場所", reading: "こうしょばしょ", meaning: "tempat yang tinggi" },
+  { page: 47, number: 3, word: "薬品", reading: "やくひん", meaning: "obat" },
+  { page: 47, number: 4, word: "微粉", reading: "びふん", meaning: "bubuk halus" },
+  { page: 47, number: 5, word: "高圧洗浄", reading: "こうあつせんじょう", meaning: "pencucian bertekanan tinggi" },
+  { page: 47, number: 6, word: "液体", reading: "えきたい", meaning: "cairan" },
+  { page: 47, number: 7, word: "騒音", reading: "そうおん", meaning: "kebisingan" },
+  { page: 47, number: 8, word: "難聴", reading: "なんちょう", meaning: "gangguan pendengaran" },
+  { page: 47, number: 9, word: "耐熱のぬね", reading: "「たいねつのぬね", meaning: "Dogwood tahan panas" },
+  { page: 47, number: 10, word: "繊維", reading: "せんい", meaning: "serat" },
+  { page: 47, number: 11, word: "編み", reading: "あみ", meaning: "rajutan" },
+  { page: 47, number: 12, word: "耐切創", reading: "たいせっそう", meaning: "Resistensi terhadap potongan" },
+  { page: 47, number: 13, word: "つま先", reading: "つまさき", meaning: "jari kaki" },
+  { page: 47, number: 14, word: "かかとに", reading: "", meaning: "dengan tumit" },
+  { page: 47, number: 15, word: "鋼板", reading: "こうばん", meaning: "pelat baja" },
+  { page: 47, number: 16, word: "装着", reading: "そうちゃく", meaning: "lampiran" },
+  { page: 47, number: 17, word: "ステンレス鋼", reading: "ステンレスこう", meaning: "besi tahan karat" },
+  { page: 47, number: 18, word: "耐油", reading: "たいゆ", meaning: "tahan minyak" },
+  { page: 47, number: 19, word: "靴底", reading: "くつぞこ", meaning: "sol sepatu" },
+  { page: 47, number: 20, word: "上部", reading: "じょうぶ", meaning: "bagian atas" },
 
-{
-  id: 45,
-  section: 4,
-  category: "情報検索",
-  type: "reading",
-  passage: "【図書館のお知らせ】\n今週の土曜日は午後5時に閉館します。日曜日は休館です。",
-  question: "土曜日は何時に閉まりますか。",
-  options: [
-    "午後3時",
-    "午後4時",
-    "午後5時",
-    "午後6時"
-  ],
-  answer: 2
-},
+  // Page 48
+  { page: 48, number: 1, word: "作業手順", reading: "さぎょうてじゅん", meaning: "prosedur kerja" },
+  { page: 48, number: 2, word: "基本的な", reading: "きほんてきな", meaning: "pada dasarnya" },
+  { page: 48, number: 3, word: "通路", reading: "つうろ", meaning: "lorong" },
+  { page: 48, number: 4, word: "横断方法", reading: "おうだんほうほう", meaning: "metode penyeberangan" },
+  { page: 48, number: 5, word: "目を合わせて", reading: "めをあわせて", meaning: "mengkombinasikan penglihatan" },
+  { page: 48, number: 6, word: "くぐらない", reading: "", meaning: "Jangan lewati" },
+  { page: 48, number: 7, word: "指差呼称", reading: "しさこしょう", meaning: "menunjuk dan memanggil" },
+  { page: 48, number: 8, word: "共同", reading: "きょうどう", meaning: "Persendian" },
+  { page: 48, number: 9, word: "よそ見", reading: "よそみ", meaning: "mengalihkan pandangan" },
+  { page: 48, number: 10, word: "無駄話", reading: "ムダはなし", meaning: "pembicaraan kosong" },
 
-{
-  id: 46,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "リーさんへ\n\n明日の朝、スーパーで牛乳を買ってください。冷蔵庫にもうありません。卵はまだあります。\n\n母",
-  question: "スーパーで何を買いますか。",
-  options: [
-    "牛乳",
-    "卵",
-    "パン",
-    "水"
-  ],
-  answer: 0
-},
+  // Page 49
+  { page: 49, number: 1, word: "信号", reading: "しんごう", meaning: "sinyal" },
+  { page: 49, number: 2, word: "標識", reading: "ひょうしき", meaning: "tanda" },
+  { page: 49, number: 3, word: "器具", reading: "きぐ", meaning: "peralatan" },
+  { page: 49, number: 4, word: "目的", reading: "もくてき", meaning: "tujuan" },
+  { page: 49, number: 5, word: "行います", reading: "「おこないます", meaning: "menerapkan" },
+  { page: 49, number: 6, word: "理解", reading: "りかい", meaning: "memahami" },
+  { page: 49, number: 7, word: "示したもの", reading: "しめしたもの", meaning: "apa yang ditampilkan" },
+  { page: 49, number: 8, word: "補足資料", reading: "「ほそくしりょう", meaning: "materi tambahan" },
+  { page: 49, number: 9, word: "参照", reading: "さんしょう", meaning: "referensi" },
+  { page: 49, number: 10, word: "丁寧", reading: "ていねい", meaning: "sopan" },
+  { page: 49, number: 11, word: "落ち着いて", reading: "おちついて", meaning: "tenang" },
+  { page: 49, number: 12, word: "無料", reading: "むり", meaning: "tidak memunkinkan" },
+  { page: 49, number: 13, word: "始業前点検", reading: "しぎょうまえてんけん", meaning: "memeriksa sebelum mulai bekerja" },
+  { page: 49, number: 14, word: "異常", reading: "いじょう", meaning: "kelainan" },
+  { page: 49, number: 15, word: "はさまる", reading: "", meaning: "tercepit" },
 
-{
-  id: 47,
-  section: 4,
-  category: "情報検索",
-  type: "reading",
-  passage: "ホテル\nチェックイン 15:00\nチェックアウト 10:00\n朝食 7:00〜9:30",
-  question: "朝食は何時までですか。",
-  options: [
-    "8:30",
-    "9:00",
-    "9:30",
-    "10:00"
-  ],
-  answer: 2
-},
+  // Page 50
+  { page: 50, number: 1, word: "振動", reading: "しんどう", meaning: "getaran" },
+  { page: 50, number: 2, word: "部品", reading: "ぶひん", meaning: "bagian" },
+  { page: 50, number: 3, word: "ネジ", reading: "", meaning: "baut" },
+  { page: 50, number: 4, word: "動作", reading: "どうさ", meaning: "gerakan" },
+  { page: 50, number: 5, word: "正常", reading: "せいじょう", meaning: "normal" },
+  { page: 50, number: 6, word: "点灯", reading: "てんとう", meaning: "menyala" },
+  { page: 50, number: 7, word: "消灯", reading: "しょうとう", meaning: "lampu padam" },
+  { page: 50, number: 8, word: "停止", reading: "ていし", meaning: "Berhenti" },
+  { page: 50, number: 9, word: "刃先", reading: "はさき", meaning: "ujung bilah (benda tajam)" },
+  { page: 50, number: 10, word: "スクリュー", reading: "", meaning: "baut" },
+  { page: 50, number: 11, word: "回転", reading: "かいてん", meaning: "memutar" },
+  { page: 50, number: 12, word: "詰まったもの", reading: "つまったもの", meaning: "barang tersumbat" },
+  { page: 50, number: 13, word: "取り除く", reading: "とりのぞく", meaning: "mengambil" },
+  { page: 50, number: 14, word: "操作盤", reading: "そうさばん", meaning: "papan operasi" },
 
-{
-  id: 48,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "昨日は仕事のあとで友達と買い物に行きました。新しい靴を買いたかったのですが、いい靴がありませんでした。それで、何も買わないで帰りました。",
-  question: "この人は何を買いましたか。",
-  options: [
-    "靴",
-    "服",
-    "かばん",
-    "何も買いませんでした"
-  ],
-  answer: 3
-},
+  // Page 51
+  { page: 51, number: 1, word: "安全装置", reading: "あんぜんそうち", meaning: "perangkat keamanan" },
+  { page: 51, number: 2, word: "扉", reading: "とびら", meaning: "pintu" },
+  { page: 51, number: 3, word: "自動的", reading: "じどうてき", meaning: "secara otomatis" },
+  { page: 51, number: 4, word: "仕組み", reading: "しくみ", meaning: "struktur" },
+  { page: 51, number: 5, word: "フェールセーフ", reading: "", meaning: "gagal keamanan" },
+  { page: 51, number: 6, word: "電源", reading: "でんげん", meaning: "sumber daya listrik" },
+  { page: 51, number: 7, word: "チェーン", reading: "", meaning: "rantai" },
+  { page: 51, number: 8, word: "故障対応中", reading: "「こしょうたいおうちゅう", meaning: "Pemecahan masalah sedang berlangsung" },
+  { page: 51, number: 9, word: "ぶら下げて", reading: "ぶらさげて", meaning: "gantung itu" },
+  { page: 51, number: 10, word: "うっかり", reading: "", meaning: "secara tidak sengaja" },
+  { page: 51, number: 11, word: "フールプルーフ", reading: "", meaning: "bukti bodoh" },
+  { page: 51, number: 12, word: "メンテナンス", reading: "", meaning: "pemeliharaan" },
+  { page: 51, number: 13, word: "安定", reading: "あんてい", meaning: "stabil" },
+  { page: 51, number: 14, word: "整備", reading: "せいび", meaning: "Pemeliharaan" },
+  { page: 51, number: 15, word: "生産", reading: "せいさん", meaning: "produksi" },
 
-{
-  id: 49,
-  section: 4,
-  category: "内容理解",
-  type: "reading",
-  passage: "来週の月曜日から、新しい仕事が始まります。仕事は朝8時から午後4時までです。家から会社まで電車で約30分かかります。",
-  question: "仕事は何時からですか。",
-  options: [
-    "7時",
-    "8時",
-    "9時",
-    "10時"
-  ],
-  answer: 1
-},
+  // Page 52
+  { page: 52, number: 1, word: "洗剤", reading: "せんざい", meaning: "deterjen" },
+  { page: 52, number: 2, word: "薬剤", reading: "やくざい", meaning: "obat" },
+  { page: 52, number: 3, word: "塩素系", reading: "えんそけい", meaning: "diklorinasi" },
+  { page: 52, number: 4, word: "酸性洗剤", reading: "さんせいせんざい", meaning: "deterjen asam" },
+  { page: 52, number: 5, word: "混ぜる", reading: "まぜる", meaning: "mencampur" },
+  { page: 52, number: 6, word: "同時に", reading: "どうじに", meaning: "pada saat yang sama" },
+  { page: 52, number: 7, word: "有毒", reading: "ゆうどく", meaning: "beracun" },
+  { page: 52, number: 8, word: "異常事態", reading: "いじょうじたい", meaning: "Situasi tidak normal" },
+  { page: 52, number: 9, word: "対応", reading: "たいおう", meaning: "korespondensi" },
+  { page: 52, number: 10, word: "応じて", reading: "おうじて", meaning: "bergantung kepada" },
+  { page: 52, number: 11, word: "緊急", reading: "きんきゅう", meaning: "keadaan darurat" },
+  { page: 52, number: 12, word: "勝手に", reading: "かってに", meaning: "sewenang-wenang" },
+  { page: 52, number: 13, word: "行動", reading: "こうどう", meaning: "tindakan" },
+  { page: 52, number: 14, word: "倒れる", reading: "たおれる", meaning: "jatuh" },
 
-{
-  id: 50,
-  section: 4,
-  category: "情報検索",
-  type: "reading",
-  passage: "【レストラン メニュー】\nカレー 700円\nラーメン 800円\n定食 900円\n\n11:00〜14:00はランチタイムです。ランチタイムはすべて100円安くなります。",
-  question: "ランチタイムにカレーはいくらですか。",
-  options: [
-    "500円",
-    "600円",
-    "700円",
-    "800円"
-  ],
-  answer: 1
-}
+  // Page 53
+  { page: 53, number: 1, word: "あわてて", reading: "", meaning: "terburu-buru" },
+  { page: 53, number: 2, word: "助ける", reading: "たすける", meaning: "membantu" },
+  { page: 53, number: 3, word: "二次災害", reading: "にじさいがい", meaning: "Bencana sekunder" },
+  { page: 53, number: 4, word: "日頃", reading: "ひごろ", meaning: "setiap hari" },
+  { page: 53, number: 5, word: "訓練", reading: "くんれん", meaning: "pelatihan" },
+  { page: 53, number: 6, word: "火災", reading: "かさい", meaning: "api" },
+  { page: 53, number: 7, word: "避難訓練", reading: "ひなんくんれん", meaning: "Latihan evakuasi" },
+  { page: 53, number: 8, word: "レバー", reading: "", meaning: "tuas" },
+  { page: 53, number: 9, word: "ぐらぐらする", reading: "", meaning: "goyangan" },
+  { page: 53, number: 10, word: "点滅", reading: "てんめつ", meaning: "berkedip" },
 
+  // Page 54
+  { page: 54, number: 11, word: "身につけて", reading: "みにつけて", meaning: "pakai itu" },
+  { page: 54, number: 1, word: "事例", reading: "じれい", meaning: "studi kasus" },
+  { page: 54, number: 2, word: "学ぶ", reading: "まなぶ", meaning: "mempelajari" },
+  { page: 54, number: 3, word: "社内", reading: "しゃない", meaning: "Di dalam perusahaan" },
+  { page: 54, number: 4, word: "身近", reading: "みじか", meaning: "akrab / familiar" },
+  { page: 54, number: 5, word: "社外", reading: "しゃがい", meaning: "Di luar perusahaan" },
+  { page: 54, number: 6, word: "覚える", reading: "おぼえる", meaning: "mengingat" },
+  { page: 54, number: 7, word: "ヒヤリハット", reading: "", meaning: "hampir kecelakaan" },
+  { page: 54, number: 8, word: "軽い", reading: "かるい", meaning: "ringan" },
+  { page: 54, number: 9, word: "件", reading: "けん", meaning: "kasus" },
+  { page: 54, number: 10, word: "法則", reading: "ほうそく", meaning: "hukum" },
+  { page: 54, number: 11, word: "ハインリッヒ", reading: "", meaning: "heinrich" },
+
+  // Page 55
+  { page: 55, number: 1, word: "体験", reading: "たいけん", meaning: "pengalaman" },
+  { page: 55, number: 2, word: "全員", reading: "ぜんいん", meaning: "semua orang" },
+  { page: 55, number: 3, word: "共有", reading: "きょうゆう", meaning: "membagikan" },
+  { page: 55, number: 4, word: "改善", reading: "かいぜん", meaning: "peningkatan" },
+  { page: 55, number: 5, word: "進む", reading: "すすむ", meaning: "maju" },
+  { page: 55, number: 6, word: "実際", reading: "じっさい", meaning: "sebenarnya" },
+  { page: 55, number: 7, word: "潜在的", reading: "せんざいてき", meaning: "potensi" },
+  { page: 55, number: 8, word: "カ", reading: "ちから", meaning: "kekuatan" },
+  { page: 55, number: 9, word: "文字", reading: "もじ", meaning: "huruf" },
+  { page: 55, number: 10, word: "感電する", reading: "かんでんする", meaning: "sengatan listrik" },
+  { page: 55, number: 11, word: "酸欠になる", reading: "さんけつになる", meaning: "kekurangan oksigen" },
+  { page: 55, number: 12, word: "有害物にやられる", reading: "「ゆうがいぶつにやられる", meaning: "terserang zat-zat berbahaya" },
+  { page: 55, number: 13, word: "くずれる", reading: "", meaning: "hancur" },
+  { page: 55, number: 14, word: "爆発", reading: "ばくはつ", meaning: "ledakan" },
+  { page: 55, number: 15, word: "漏れる", reading: "もれる", meaning: "bocor" },
+
+  // Page 56
+  { page: 56, number: 1, word: "姿勢", reading: "しせい", meaning: "sikap" },
+  { page: 56, number: 2, word: "イラスト", reading: "", meaning: "ilustrasi" },
+  { page: 56, number: 3, word: "示した", reading: "しめした", meaning: "diindikasikan" },
+  { page: 56, number: 4, word: "警戒", reading: "けいかい", meaning: "kewaspadaan" },
+  { page: 56, number: 5, word: "積まれた", reading: "つまれた", meaning: "menumpuk" },
+  { page: 56, number: 6, word: "煮物", reading: "にもの", meaning: "makanan rebus" },
+  { page: 56, number: 7, word: "ガスコンロ", reading: "", meaning: "Tungku gas" },
+  { page: 56, number: 8, word: "室内", reading: "しつない", meaning: "dalam" },
+  { page: 56, number: 9, word: "トレー", reading: "", meaning: "baki" },
+  { page: 56, number: 10, word: "移動", reading: "いどう", meaning: "bergerak" },
+  { page: 56, number: 11, word: "拭き取って", reading: "ふきとって", meaning: "bersihkan" },
+
+  // Page 57
+  { page: 57, number: 1, word: "両手", reading: "りょうて", meaning: "kedua tangan" },
+  { page: 57, number: 2, word: "通路", reading: "つうろ", meaning: "lorong/jalan" },
+  { page: 57, number: 3, word: "空箱", reading: "からばこ", meaning: "kotak kosong" },
+  { page: 57, number: 4, word: "つまずき", reading: "", meaning: "tersandung" },
+  { page: 57, number: 5, word: "転倒", reading: "てんとう", meaning: "jatuh" },
+  { page: 57, number: 6, word: "重ねて", reading: "かさねて", meaning: "tumpuk" },
+  { page: 57, number: 7, word: "数", reading: "かず", meaning: "jumlah" },
+  { page: 57, number: 8, word: "突然", reading: "とつぜん", meaning: "tiba-tiba" },
+
+  // Page 58-59
+  { page: 58, number: 1, word: "引っ掛かって", reading: "", meaning: "tersangkut/terjepit" },
+  { page: 58, number: 2, word: "除去", reading: "じょきょ", meaning: "pemindahan" },
+  { page: 58, number: 3, word: "確実", reading: "かくじつ", meaning: "memastikan" },
+  { page: 58, number: 4, word: "原因", reading: "げんいん", meaning: "penyebab" },
+  { page: 58, number: 5, word: "対策", reading: "たいさく", meaning: "penanganan" },
+  { page: 59, number: 6, word: "滑り", reading: "すべり", meaning: "licin" },
+  { page: 59, number: 7, word: "加工する", reading: "かこうする", meaning: "proses" },
+  { page: 59, number: 8, word: "落ちる", reading: "おちる", meaning: "jatuh ke bawah" },
+  { page: 59, number: 9, word: "棚", reading: "たな", meaning: "rak" },
+  { page: 59, number: 10, word: "脚立", reading: "きゃたつ", meaning: "anak tangga" },
+
+  // Page 60
+  { page: 60, number: 1, word: "止金具", reading: "とめかなぐ", meaning: "pengikat /pengunci" },
+  { page: 60, number: 2, word: "鉄板", reading: "てっぱん", meaning: "plat besi" },
+  { page: 60, number: 3, word: "作業台", reading: "さぎょうだい", meaning: "meja kerja" },
+  { page: 60, number: 4, word: "移そう", reading: "うつそう", meaning: "memindahkan" },
+  { page: 60, number: 5, word: "素手で", reading: "すで", meaning: "dengan tangan kosong (tanpa sarung tangan)" },
+  { page: 60, number: 6, word: "直後", reading: "ちょくご", meaning: "segera setelah" },
+  { page: 60, number: 7, word: "鍋", reading: "なべ", meaning: "panci" },
+  { page: 60, number: 8, word: "釜", reading: "かま", meaning: "ketel" },
+
+  // Page 61
+  { page: 61, number: 1, word: "腰痛", reading: "ようつう", meaning: "nyeri punggung bawah" },
+  { page: 61, number: 2, word: "感じる", reading: "かんじる", meaning: "merasakan" },
+  { page: 61, number: 3, word: "不安定", reading: "ふあんてい", meaning: "tidak stabil" },
+  { page: 61, number: 4, word: "膝", reading: "ひざ", meaning: "lutut" },
+  { page: 61, number: 5, word: "曲げて", reading: "まげて", meaning: "membengkokkan" },
+  { page: 61, number: 6, word: "抱えて", reading: "かかえて", meaning: "tahan, peluk" },
+  { page: 61, number: 7, word: "伸ばす", reading: "のばす", meaning: "menggeliat, memanjangkan" },
+  { page: 61, number: 8, word: "生あん工程", reading: "せいあんこうてい", meaning: "proses pasta kacang mentah" },
+  { page: 61, number: 9, word: "ホッパー", reading: "", meaning: "gerbong" },
+  { page: 61, number: 10, word: "豆", reading: "まめ", meaning: "kacang polong" },
+  { page: 61, number: 11, word: "計量", reading: "けいりょう", meaning: "pengukuran" },
+  { page: 61, number: 12, word: "繰り返し", reading: "くりかえし", meaning: "pengulangan" },
+  { page: 61, number: 13, word: "ふらつき", reading: "", meaning: "sakit kepala ringan" },
+  { page: 61, number: 14, word: "診断", reading: "しんだん", meaning: "diagnosa" },
+  { page: 61, number: 15, word: "汗", reading: "あせ", meaning: "keringat" },
+
+  // Page 62
+  { page: 62, number: 1, word: "安静", reading: "あんせい", meaning: "istirahat" },
+  { page: 62, number: 2, word: "緩める", reading: "ゆるめる", meaning: "melonggarkan" },
+  { page: 62, number: 3, word: "脇の下", reading: "わきのした", meaning: "ketiak" },
+  { page: 62, number: 4, word: "足の付け根", reading: "あしのつけね", meaning: "pangkal kaki" },
+  { page: 62, number: 5, word: "スポーツドリンク", reading: "", meaning: "minuman olahraga" },
+  { page: 62, number: 6, word: "激突", reading: "げきとつ", meaning: "Bentrokan/ tabrakan" },
+  { page: 62, number: 7, word: "一時停止", reading: "いちじていし", meaning: "berhenti sebentar" },
+  { page: 62, number: 8, word: "運転者", reading: "うんてんしゃ", meaning: "pengemudi" },
+
+  // Page 63
+  { page: 63, number: 1, word: "立入禁止", reading: "「たちいりきんし", meaning: "langan masuk" },
+  { page: 63, number: 2, word: "開放厳禁", reading: "「かいほうげんきん", meaning: "dilarang keras untuk dibuka" },
+  { page: 63, number: 3, word: "点検中", reading: "てんけんちゅう", meaning: "sedang diperiksa" },
+  { page: 63, number: 4, word: "スイッチをいれるな", reading: "", meaning: "jangan hidupkan saklarnya" },
+  { page: 63, number: 5, word: "手を触れるな", reading: "てをふれるな", meaning: "Jangan sentuh" },
+  { page: 63, number: 6, word: "はさまれ注意", reading: "「はさまれちゅうい", meaning: "Hati-hati terjepit" },
+  { page: 63, number: 7, word: "火傷注意", reading: "やけどちゅうい", meaning: "Hati-hati terhadap luka bakar" },
+  { page: 63, number: 8, word: "高温注意", reading: "こうおんちゅうい", meaning: "Hati-hati terhadap suhu tinggi" },
+
+  // Page 64
+  { page: 64, number: 1, word: "足元注意", reading: "「あしもとちゅうい", meaning: "Perhatikan langkahmu" },
+  { page: 64, number: 2, word: "危険転倒注意", reading: "「きけんてんとうちゅうい", meaning: "Bahaya terjatuh" },
+  { page: 64, number: 3, word: "開口部注意", reading: "「かいこうぶちゅうい", meaning: "Hati-hati dengan bukaan" },
+  { page: 64, number: 4, word: "転落注意", reading: "てんらくちゅうい", meaning: "Hati-hati agar tidak jatuh" },
+  { page: 64, number: 5, word: "切断注意", reading: "せつだんちゅうい", meaning: "Hati-hati dalam memotong" },
+  { page: 64, number: 6, word: "回転物に手をだすな", reading: "かいてんものてをだすな", meaning: "Jangan menyentuh benda berputar" },
+  { page: 64, number: 7, word: "感電注意", reading: "「かんでんちゅうい", meaning: "Hati-hati terhadap sengatan listrik" },
+
+  // Page 65
+  { page: 65, number: 8, word: "頭上注意", reading: "ずじょうちゅうい", meaning: "perhatikan kepalamu" },
+  { page: 65, number: 1, word: "ゴーグル着用", reading: "ゴーグルちゃくよう", meaning: "Mengenakan kacamata" },
+  { page: 65, number: 2, word: "保護メガネ着用", reading: "ほごめがねちゃくよう", meaning: "Kenakan kacamata pengaman" },
+  { page: 65, number: 3, word: "非常口", reading: "ひじょうぐち", meaning: "pintu darurat" },
+  { page: 65, number: 4, word: "消火器", reading: "しょうかき", meaning: "alat pemadam api" }
 ];
 
 
-/* =====================================================
-   EXAM CONFIG
-===================================================== */
 
-const SECTIONS = {
-  1: {
-    name: "文字と語彙",
-    sub: "Script & Vocabulary"
-  },
+const $ = id => document.getElementById(id);
 
-  2: {
-    name: "会話と表現",
-    sub: "Conversation & Expression"
-  },
+let selectedPage = null;
 
-  3: {
-    name: "聴解",
-    sub: "Listening"
-  },
+let deck = [];
 
-  4: {
-    name: "読解",
-    sub: "Reading"
-  }
-};
+let index = 0;
 
-const TOTAL_TIME = 60 * 60;
+function getPages() {
 
+  return [...new Set(DATA.map(item => item.page))]
 
-/* =====================================================
-   STATE
-===================================================== */
-
-let currentQuestion = 0;
-
-let answers = new Array(JFT_QUESTIONS.length).fill(null);
-
-let remainingTime = TOTAL_TIME;
-
-let timerInterval = null;
-
-let examFinished = false;
-
-let reviewMode = false;
-
-
-/* =====================================================
-   ELEMENTS
-===================================================== */
-
-const startScreen =
-  document.getElementById("startScreen");
-
-const examScreen =
-  document.getElementById("examScreen");
-
-const transitionScreen =
-  document.getElementById("transitionScreen");
-
-const resultScreen =
-  document.getElementById("resultScreen");
-
-const startBtn =
-  document.getElementById("startBtn");
-
-const prevBtn =
-  document.getElementById("prevBtn");
-
-const nextBtn =
-  document.getElementById("nextBtn");
-
-const continueBtn =
-  document.getElementById("continueBtn");
-
-const reviewBtn =
-  document.getElementById("reviewBtn");
-
-const restartBtn =
-  document.getElementById("restartBtn");
-
-const questionGrid =
-  document.getElementById("questionGrid");
-
-const questionContent =
-  document.getElementById("questionContent");
-
-const optionsContainer =
-  document.getElementById("options");
-
-const categoryLabel =
-  document.getElementById("categoryLabel");
-
-const audioBox =
-  document.getElementById("audioBox");
-
-const playAudioBtn =
-  document.getElementById("playAudioBtn").addEventListener("click", function () {
-  playListeningAudio();
-});
-const timerElement =
-  document.getElementById("timer");
-
-const timerBox =
-  document.getElementById("timerBox");
-
-const questionNumber =
-  document.getElementById("questionNumber");
-
-const totalQuestions =
-  document.getElementById("totalQuestions");
-
-const progressBar =
-  document.getElementById("progressBar");
-
-const sectionName =
-  document.getElementById("sectionName");
-
-const sectionSub =
-  document.getElementById("sectionSub");
-
-
-totalQuestions.textContent =
-  JFT_QUESTIONS.length;
-
-
-/* =====================================================
-   SCREEN CONTROL
-===================================================== */
-
-function showScreen(screen) {
-
-  document
-    .querySelectorAll(".screen")
-    .forEach(el => {
-      el.classList.remove("active");
-    });
-
-  screen.classList.add("active");
-
-  window.scrollTo({
-    top: 0,
-    behavior: "instant"
-  });
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-startBtn.addEventListener("click", startExam);
-
-function startExam() {
-
-  currentQuestion = 0;
-
-  answers =
-    new Array(JFT_QUESTIONS.length).fill(null);
-
-  remainingTime = TOTAL_TIME;
-
-  examFinished = false;
-
-  reviewMode = false;
-
-  showScreen(examScreen);
-
-  renderQuestion();
-
-  renderQuestionGrid();
-
-  updateTimer();
-
-  clearInterval(timerInterval);
-
-  timerInterval =
-    setInterval(() => {
-
-      remainingTime--;
-
-      updateTimer();
-
-      if (remainingTime <= 0) {
-
-        clearInterval(timerInterval);
-
-        finishExam();
-
-      }
-
-    }, 1000);
-}
-
-
-/* =====================================================
-   TIMER
-===================================================== */
-
-function updateTimer() {
-
-  const minutes =
-    Math.floor(remainingTime / 60);
-
-  const seconds =
-    remainingTime % 60;
-
-  timerElement.textContent =
-    String(minutes).padStart(2, "0")
-    + ":"
-    + String(seconds).padStart(2, "0");
-
-  if (remainingTime <= 300) {
-    timerBox.classList.add("warning");
-  } else {
-    timerBox.classList.remove("warning");
-  }
-}
-
-
-/* =====================================================
-   RENDER QUESTION
-===================================================== */
-
-function renderQuestion() {
-
-  const q =
-    JFT_QUESTIONS[currentQuestion];
-
-  if (!q) return;
-
-  const section =
-    SECTIONS[q.section];
-
-  sectionName.textContent =
-    section.name;
-
-  sectionSub.textContent =
-    section.sub;
-
-  questionNumber.textContent =
-    q.id;
-
-  progressBar.style.width =
-    ((currentQuestion + 1)
-      / JFT_QUESTIONS.length * 100)
-    + "%";
-
-  categoryLabel.textContent =
-    q.category || "";
-
-
-  /* QUESTION CONTENT */
-
-  let html = "";
-
-  if (q.context) {
-
-    html += `
-      <div class="question-context">
-        ${escapeHTML(q.context)}
-      </div>
-    `;
-
-  }
-
-  if (q.passage) {
-
-    html += `
-      <div class="question-context">
-        ${escapeHTML(q.passage)}
-      </div>
-    `;
-
-  }
-
-  html += `
-    <div class="question-text">
-      ${escapeHTML(q.question)}
-    </div>
-  `;
-
-  questionContent.innerHTML = html;
-
-
-  /* AUDIO */
-
-  if (q.type === "listening") {
-
-    audioBox.classList.remove("hidden");
-
-  } else {
-
-    audioBox.classList.add("hidden");
-
-  }
-
-
-  /* OPTIONS */
-
-  renderOptions(q);
-
-  updateNavigation();
-
-  renderQuestionGrid();
+    .sort((a, b) => a - b);
 
 }
 
+function buildPageButtons() {
 
-/* =====================================================
-   OPTIONS
-===================================================== */
-
-function renderOptions(q) {
-
-  optionsContainer.innerHTML = "";
-
-  q.options.forEach((option, index) => {
-
-    const div =
-      document.createElement("div");
-
-    div.className = "option";
-
-    if (answers[currentQuestion] === index) {
-      div.classList.add("selected");
-    }
-
-    const letter =
-      String.fromCharCode(65 + index);
-
-    div.innerHTML = `
-      <div class="option-letter">
-        ${letter}
-      </div>
-
-      <div>
-        ${escapeHTML(option)}
-      </div>
-    `;
-
-
-    if (!reviewMode) {
-
-      div.addEventListener(
-        "click",
-        () => selectAnswer(index)
-      );
-
-    }
-
-
-    /* REVIEW */
-
-    if (reviewMode) {
-
-      if (index === q.answer) {
-
-        div.classList.add(
-          "review-correct"
-        );
-
-      }
-
-      if (
-        answers[currentQuestion] === index
-        &&
-        index !== q.answer
-      ) {
-
-        div.classList.add(
-          "review-wrong"
-        );
-
-      }
-
-    }
-
-
-    optionsContainer.appendChild(div);
-
-  });
-
-
-  if (reviewMode) {
-
-    const userAnswer =
-      answers[currentQuestion];
-
-    let reviewHTML = "";
-
-    if (userAnswer === null) {
-
-      reviewHTML = `
-        <div class="review-answer">
-          <strong>Jawaban kamu:</strong>
-          Tidak dijawab
-          <br>
-          <strong>Jawaban benar:</strong>
-          ${escapeHTML(q.options[q.answer])}
-        </div>
-      `;
-
-    } else {
-
-      reviewHTML = `
-        <div class="review-answer">
-          <strong>Jawaban kamu:</strong>
-          ${escapeHTML(q.options[userAnswer])}
-          <br>
-          <strong>Jawaban benar:</strong>
-          ${escapeHTML(q.options[q.answer])}
-        </div>
-      `;
-
-    }
-
-    optionsContainer.insertAdjacentHTML(
-      "afterend",
-      reviewHTML
-    );
-
-  }
-}
-
-
-/* =====================================================
-   SELECT ANSWER
-===================================================== */
-
-function selectAnswer(index) {
-
-  if (reviewMode) return;
-
-  answers[currentQuestion] =
-    index;
-
-  renderQuestion();
-
-}
-
-
-/* =====================================================
-   QUESTION GRID
-===================================================== */
-
-function renderQuestionGrid() {
-
-  questionGrid.innerHTML = "";
-
-  let lastSection = null;
-
-  JFT_QUESTIONS.forEach((q, index) => {
-
-    if (q.section !== lastSection) {
-
-      const title =
-        document.createElement("div");
-
-      title.className =
-        "nav-section-title";
-
-      title.style.gridColumn =
-        "1 / -1";
-
-      title.textContent =
-        SECTIONS[q.section].name;
-
-      questionGrid.appendChild(title);
-
-      lastSection =
-        q.section;
-    }
-
-
-    const btn =
-      document.createElement("div");
-
-    btn.className =
-      "question-number";
-
-    btn.textContent =
-      q.id;
-
-
-    if (index === currentQuestion) {
-
-      btn.classList.add("current");
-
-    }
-
-
-    if (answers[index] !== null) {
-
-      btn.classList.add("answered");
-
-    }
-
-
-    btn.addEventListener(
-      "click",
-      () => {
-
-        currentQuestion = index;
-
-        renderQuestion();
-
-      }
-    );
-
-
-    questionGrid.appendChild(btn);
-
-  });
-
-}
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-prevBtn.addEventListener(
-  "click",
-  () => {
-
-    if (currentQuestion > 0) {
-
-      currentQuestion--;
-
-      renderQuestion();
-
-    }
-
-  }
-);
-
-
-nextBtn.addEventListener(
-  "click",
-  () => {
-
-    if (
-      currentQuestion <
-      JFT_QUESTIONS.length - 1
-    ) {
-
-      currentQuestion++;
-
-      renderQuestion();
-
-    } else {
-
-      finishExam();
-
-    }
-
-  }
-);
-
-
-function updateNavigation() {
-
-  prevBtn.disabled =
-    currentQuestion === 0;
-
-  if (
-    currentQuestion ===
-    JFT_QUESTIONS.length - 1
-  ) {
-
-    nextBtn.textContent =
-      "Finish ✓";
-
-  } else {
-
-    nextBtn.textContent =
-      "Next →";
-
-  }
-
-}
-
-
-/* =====================================================
-   LISTENING
-===================================================== */
-
-playAudioBtn.addEventListener(
-  "click",
-  playListening
-);
-
-
-function playListening() {
-
-  const q =
-    JFT_QUESTIONS[currentQuestion];
-
-  if (!q.audio) return;
-
-  if (
-    "speechSynthesis"
-    in window
-  ) {
-
-    speechSynthesis.cancel();
-
-    const utterance =
-      new SpeechSynthesisUtterance(
-        q.audio
-      );
-
-    utterance.lang =
-      "ja-JP";
-
-    utterance.rate =
-      0.85;
-
-    utterance.pitch =
-      1;
-
-    speechSynthesis.speak(
-      utterance
-    );
-
-  } else {
-
-    alert(
-      "Browser kamu tidak mendukung audio speech."
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   FINISH
-===================================================== */
-
-function finishExam() {
-
-  if (examFinished) return;
-
-  examFinished = true;
-
-  clearInterval(timerInterval);
-
-  if (
-    currentQuestion <
-    JFT_QUESTIONS.length - 1
-  ) {
-
-    const unanswered =
-      answers.filter(
-        a => a === null
-      ).length;
-
-    const proceed =
-      confirm(
-        "Kamu belum menyelesaikan semua soal.\n\n"
-        + unanswered
-        + " soal belum dijawab.\n\n"
-        + "Tetap akhiri ujian?"
-      );
-
-    if (!proceed) {
-
-      examFinished = false;
-
-      timerInterval =
-        setInterval(() => {
-
-          remainingTime--;
-
-          updateTimer();
-
-          if (remainingTime <= 0) {
-
-            clearInterval(timerInterval);
-
-            finishExam();
-
-          }
-
-        }, 1000);
-
-      return;
-    }
-
-  }
-
-
-  showResult();
-
-}
-
-
-/* =====================================================
-   SCORE
-===================================================== */
-
-function calculateScore() {
-
-  let correct = 0;
-
-  JFT_QUESTIONS.forEach(
-    (q, index) => {
-
-      if (
-        answers[index] ===
-        q.answer
-      ) {
-
-        correct++;
-
-      }
-
-    }
-  );
-
-  return correct;
-
-}
-
-
-/*
-  IMPORTANT:
-
-  Ini adalah ESTIMATED score,
-  bukan rumus resmi JFT-Basic.
-
-  0 benar  = 10
-  50 benar = 250
-
-  Skala dibuat linear sebagai
-  simulasi latihan.
-*/
-
-function calculateScaledScore(correct) {
-
-  const score =
-    10 +
-    (correct / JFT_QUESTIONS.length)
-    * 240;
-
-  return Math.round(score);
-
-}
-
-
-/* =====================================================
-   LEVEL
-===================================================== */
-
-function getLevel(score) {
-
-  if (score >= 200) {
-
-    return "Strong — JFT-Basic Pass Range";
-
-  }
-
-  if (score >= 180) {
-
-    return "Good — Near Pass Range";
-
-  }
-
-  if (score >= 150) {
-
-    return "Developing — Keep Practicing";
-
-  }
-
-  if (score >= 100) {
-
-    return "Basic — Needs More Practice";
-
-  }
-
-  return "Beginner — Keep Studying";
-
-}
-
-
-/* =====================================================
-   RESULT
-===================================================== */
-
-function showResult() {
-
-  const correct =
-    calculateScore();
-
-  const score =
-    calculateScaledScore(
-      correct
-    );
-
-  const accuracy =
-    Math.round(
-      correct /
-      JFT_QUESTIONS.length *
-      100
-    );
-
-  document.getElementById(
-    "finalScore"
-  ).textContent =
-    score;
-
-  document.getElementById(
-    "correctCount"
-  ).textContent =
-    correct
-    + " / "
-    + JFT_QUESTIONS.length;
-
-  document.getElementById(
-    "accuracy"
-  ).textContent =
-    accuracy + "%";
-
-  document.getElementById(
-    "levelResult"
-  ).textContent =
-    getLevel(score);
-
-  renderSectionResults();
-
-  showScreen(resultScreen);
-
-}
-
-
-/* =====================================================
-   SECTION RESULTS
-===================================================== */
-
-function renderSectionResults() {
-
-  const container =
-    document.getElementById(
-      "sectionResults"
-    );
+  const container = $("pageButtons");
 
   container.innerHTML = "";
 
+  getPages().forEach(page => {
 
-  for (
-    let section = 1;
-    section <= 4;
-    section++
-  ) {
+    const button = document.createElement("button");
 
-    const questions =
-      JFT_QUESTIONS.filter(
-        q => q.section === section
-      );
+    button.className = "page-btn";
 
-    let correct = 0;
+    button.textContent = `ページ ${page}`;
 
-    questions.forEach(q => {
+    button.dataset.page = page;
 
-      const index =
-        JFT_QUESTIONS.indexOf(q);
+    button.addEventListener("click", () => {
 
-      if (
-        answers[index] ===
-        q.answer
-      ) {
-
-        correct++;
-
-      }
+      selectPage(page);
 
     });
 
+    container.appendChild(button);
 
-    const percent =
-      Math.round(
-        correct /
-        questions.length *
-        100
-      );
+  });
 
+}
 
-    container.innerHTML += `
+function selectPage(page) {
 
-      <div class="section-result">
+  selectedPage = page;
 
-        <div class="section-result-header">
+  deck = DATA
 
-          <span>
-            ${SECTIONS[section].name}
-          </span>
+    .filter(item => item.page === page)
 
-          <strong>
-            ${correct}/${questions.length}
-            (${percent}%)
-          </strong>
+    .slice()
 
-        </div>
+    .sort((a, b) => a.number - b.number);
 
-        <div class="section-result-bar">
+  index = 0;
 
-          <div
-            class="section-result-fill"
-            style="width:${percent}%">
-          </div>
+  document.querySelectorAll(".page-btn").forEach(button => {
 
-        </div>
+    button.classList.toggle(
 
-      </div>
+      "active",
 
-    `;
+      Number(button.dataset.page) === page
+
+    );
+
+  });
+
+  $("pageLabel").textContent = `ページ ${page}`;
+
+  $("studyArea").style.display = deck.length ? "block" : "none";
+
+  renderCard();
+
+}
+
+function renderCard() {
+
+  if (!deck.length) return;
+
+  const item = deck[index];
+
+  $("flashcard").classList.remove("flipped");
+
+  $("jpWord").textContent = item.word;
+
+  $("reading").textContent = item.reading;
+
+  $("meaning").textContent = item.meaning;
+
+  $("cardCounter").textContent =
+
+    `No. ${item.number} · ${index + 1} / ${deck.length}`;
+
+  $("progressBar").style.width =
+
+    `${((index + 1) / deck.length) * 100}%`;
+
+  $("previousBtn").disabled = index === 0;
+
+  $("nextBtn").disabled = index === deck.length - 1;
+
+  $("previousBtn").style.opacity = index === 0 ? ".45" : "1";
+
+  $("nextBtn").style.opacity =
+
+    index === deck.length - 1 ? ".45" : "1";
+
+}
+
+function flipCard() {
+
+  $("flashcard").classList.toggle("flipped");
+
+}
+
+function nextCard() {
+
+  if (index < deck.length - 1) {
+
+    index++;
+
+    renderCard();
 
   }
 
 }
 
+function previousCard() {
 
-/* =====================================================
-   REVIEW
-===================================================== */
+  if (index > 0) {
 
-reviewBtn.addEventListener(
-  "click",
-  startReview
-);
+    index--;
 
-
-function startReview() {
-
-  reviewMode = true;
-
-  currentQuestion = 0;
-
-  showScreen(examScreen);
-
-  renderQuestion();
-
-}
-
-
-function exitReviewIfFinished() {
-
-  reviewMode = false;
-
-}
-
-
-/* =====================================================
-   RESTART
-===================================================== */
-
-restartBtn.addEventListener(
-  "click",
-  () => {
-
-    reviewMode = false;
-
-    answers =
-      new Array(
-        JFT_QUESTIONS.length
-      ).fill(null);
-
-    currentQuestion = 0;
-
-    remainingTime =
-      TOTAL_TIME;
-
-    examFinished = false;
-
-    showScreen(startScreen);
-
-  }
-);
-
-
-/* =====================================================
-   CONTINUE
-===================================================== */
-
-continueBtn.addEventListener(
-  "click",
-  () => {
-
-    showScreen(examScreen);
-
-  }
-);
-
-
-/* =====================================================
-   ESCAPE HTML
-===================================================== */
-
-function escapeHTML(value) {
-
-  if (value === undefined ||
-      value === null) {
-
-    return "";
+    renderCard();
 
   }
 
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
-// ===============================
-// JFT LISTENING AUDIO - JAPANESE TTS
-// ===============================
-
-function getJapaneseVoice() {
-  const voices = window.speechSynthesis.getVoices();
-
-  // Cari voice Jepang
-  return (
-    voices.find(v => v.lang.toLowerCase() === "ja-jp") ||
-    voices.find(v => v.lang.toLowerCase().startsWith("ja")) ||
-    voices.find(v => /japanese|日本語/i.test(v.name)) ||
-    null
-  );
 }
 
-function playListeningAudio() {
-  const question = JFT_QUESTIONS[currentQuestion];
+$("flashcard").addEventListener("click", flipCard);
 
-  if (!question || !question.audio) {
-    console.log("Audio tidak ditemukan untuk soal ini.");
-    return;
+$("flipBtn").addEventListener("click", flipCard);
+
+$("nextBtn").addEventListener("click", nextCard);
+
+$("previousBtn").addEventListener("click", previousCard);
+
+$("flashcard").addEventListener("keydown", event => {
+
+  if (event.key === "Enter" || event.key === " ") {
+
+    event.preventDefault();
+
+    flipCard();
+
   }
 
-  // Cek dukungan browser
+});
+
+// Tampilkan pilihan ページ pertama secara otomatis
+
+buildPageButtons();
+
+const firstPage = getPages()[0];
+
+if (firstPage !== undefined) {
+
+  selectPage(firstPage);
+
+
+/* =================================
+   AUDIO + AUTO NEXT + AUTO REVERSE
+================================= */
+
+let autoTimer = null;
+let autoDirection = 0;
+// 0 = berhenti, 1 = maju, -1 = mundur
+
+function stopAuto() {
+  if (autoTimer !== null) {
+    clearInterval(autoTimer);
+    autoTimer = null;
+  }
+
+  autoDirection = 0;
+
+  $("autoNextBtn").textContent = "▶ Auto Next";
+  $("autoReverseBtn").textContent = "◀ Auto Reverse";
+  $("pauseAutoBtn").textContent = "⏸ Jeda";
+}
+
+function speakJapanese() {
+  if (!deck.length) return;
+
   if (!("speechSynthesis" in window)) {
-    alert("Browser ini tidak mendukung audio otomatis.");
+    alert("Browser ini belum mendukung suara.");
     return;
   }
 
-  // Hentikan suara sebelumnya
-  speechSynthesis.cancel();
+  window.speechSynthesis.cancel();
 
-  const text = question.audio;
+  const item = deck[index];
+  const utterance = new SpeechSynthesisUtterance(item.word);
 
-  const utterance = new SpeechSynthesisUtterance(text);
-
-  // Bahasa Jepang
   utterance.lang = "ja-JP";
+  utterance.rate = 0.8;
+  utterance.pitch = 1;
 
-  // Kecepatan dibuat seperti latihan listening
-  utterance.rate = 0.85;
-
-  // Pitch normal
-  utterance.pitch = 1.0;
-
-  // Volume maksimal
-  utterance.volume = 1.0;
-
-  // Gunakan voice Jepang jika tersedia
-  const japaneseVoice = getJapaneseVoice();
-
-  if (japaneseVoice) {
-    utterance.voice = japaneseVoice;
-  }
-
-  // Ubah status tombol saat berbicara
-  const button = document.getElementById("playAudioBtn");
-
-  if (button) {
-    button.textContent = "🔊 Playing...";
-    button.disabled = true;
-  }
-
-  utterance.onend = function () {
-    if (button) {
-      button.textContent = "▶ Play";
-      button.disabled = false;
-    }
-  };
-
-  utterance.onerror = function (event) {
-    console.error("Speech error:", event);
-
-    if (button) {
-      button.textContent = "▶ Play";
-      button.disabled = false;
-    }
-  };
-
-  speechSynthesis.speak(utterance);
+  window.speechSynthesis.speak(utterance);
 }
 
+function startAuto(direction) {
+  stopAuto();
 
-// Pastikan voice Jepang sudah dimuat
-if ("speechSynthesis" in window) {
-  speechSynthesis.onvoiceschanged = function () {
-    getJapaneseVoice();
-  };
+  if (!deck.length) return;
+
+  autoDirection = direction;
+
+  if (direction === 1) {
+    $("autoNextBtn").textContent = "⏸ Hentikan Next";
+  } else {
+    $("autoReverseBtn").textContent = "⏸ Hentikan Reverse";
+  }
+
+  const seconds = Number($("intervalSelect").value) || 5;
+
+  autoTimer = setInterval(() => {
+    if (direction === 1) {
+      if (index >= deck.length - 1) {
+        stopAuto();
+        return;
+      }
+
+      nextCard();
+    } else {
+      if (index <= 0) {
+        stopAuto();
+        return;
+      }
+
+      previousCard();
+    }
+  }, seconds * 1000);
 }
 
-/* =====================================================
-   KEYBOARD SHORTCUTS
-===================================================== */
+$("speakBtn").addEventListener("click", speakJapanese);
 
-document.addEventListener(
-  "keydown",
-  event => {
-
-    if (
-      !examScreen.classList.contains(
-        "active"
-      )
-    ) return;
-
-    if (reviewMode) {
-
-      if (
-        event.key === "ArrowRight"
-        &&
-        currentQuestion <
-        JFT_QUESTIONS.length - 1
-      ) {
-
-        currentQuestion++;
-
-        renderQuestion();
-
-      }
-
-      if (
-        event.key === "ArrowLeft"
-        &&
-        currentQuestion > 0
-      ) {
-
-        currentQuestion--;
-
-        renderQuestion();
-
-      }
-
-      return;
-
-    }
-
-
-    /* A B C D */
-
-    const key =
-      event.key.toLowerCase();
-
-    if (
-      ["a","b","c","d"].includes(key)
-    ) {
-
-      const index =
-        ["a","b","c","d"]
-        .indexOf(key);
-
-      const q =
-        JFT_QUESTIONS[
-          currentQuestion
-        ];
-
-      if (
-        q &&
-        index < q.options.length
-      ) {
-
-        selectAnswer(index);
-
-      }
-
-    }
-
-
-    if (
-      event.key === "ArrowRight"
-    ) {
-
-      if (
-        currentQuestion <
-        JFT_QUESTIONS.length - 1
-      ) {
-
-        currentQuestion++;
-
-        renderQuestion();
-
-      }
-
-    }
-
-
-    if (
-      event.key === "ArrowLeft"
-    ) {
-
-      if (
-        currentQuestion > 0
-      ) {
-
-        currentQuestion--;
-
-        renderQuestion();
-
-      }
-
-    }
-
+$("autoNextBtn").addEventListener("click", () => {
+  if (autoDirection === 1) {
+    stopAuto();
+  } else {
+    startAuto(1);
   }
-);
+});
+
+$("autoReverseBtn").addEventListener("click", () => {
+  if (autoDirection === -1) {
+    stopAuto();
+  } else {
+    startAuto(-1);
+  }
+});
+
+$("pauseAutoBtn").addEventListener("click", () => {
+  if (autoTimer !== null) {
+    clearInterval(autoTimer);
+    autoTimer = null;
+    $("pauseAutoBtn").textContent = "▶ Lanjutkan";
+  } else if (autoDirection !== 0) {
+    const direction = autoDirection;
+    startAuto(direction);
+  }
+});
+
+// Hentikan otomatis saat mengganti halaman
+const originalSelectPage = selectPage;
+
+selectPage = function(page) {
+  stopAuto();
+
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  originalSelectPage(page);
+};
+
+// Ganti interval ketika pemutaran otomatis berjalan
+$("intervalSelect").addEventListener("change", () => {
+  if (autoDirection !== 0) {
+    const direction = autoDirection;
+    startAuto(direction);
+  }
+});
 
 
-/* =====================================================
-   INITIAL
-===================================================== */
-
-totalQuestions.textContent =
-  JFT_QUESTIONS.length;
+  
+}
 
 </script>
 
 </body>
+
 </html>
