@@ -1890,167 +1890,329 @@ if (firstPage !== undefined) {
   selectPage(firstPage);
 
 
-/* =================================
-   AUDIO + AUTO NEXT + AUTO REVERSE
-================================= */
+/* =========================================
+   KOTOBA BLOOM — AUTO NAVIGATION + VOICE
+   Memerlukan: deck, index, nextCard(),
+   previousCard(), dan render/update kartu
+========================================= */
 
-let autoTimer = null;
-let autoDirection = 0;
-// 0 = berhenti, 1 = maju, -1 = mundur
+let kbAutoTimer = null;
+let kbAutoDirection = 0; // 1 = maju, -1 = mundur
+let kbAutoRunning = false;
+let kbAutoPaused = false;
+let kbVoiceRunId = 0;
 
-function stopAuto() {
-  if (autoTimer !== null) {
-    clearInterval(autoTimer);
-    autoTimer = null;
-  }
+const kb$ = (id) => document.getElementById(id);
 
-  autoDirection = 0;
-
-  $("autoNextBtn").textContent = "▶ Auto Next";
-  $("autoReverseBtn").textContent = "◀ Auto Reverse";
-  $("pauseAutoBtn").textContent = "⏸ Jeda";
+function kbGetCurrentItem() {
+  if (!Array.isArray(deck) || deck.length === 0) return null;
+  return deck[index] || null;
 }
 
-
-function speakText(text, lang, rate = 0.85) {
-  if (!("speechSynthesis" in window)) {
-    alert("Browser ini belum mendukung fitur suara.");
-    return;
-  }
-
-  if (!text) {
-    alert("Teks belum tersedia untuk kartu ini.");
-    return;
-  }
-
-  // Hentikan suara sebelumnya
-  window.speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(String(text));
-  utterance.lang = lang;
-  utterance.rate = rate;
-  utterance.pitch = 1;
-
-  // Pilih suara sesuai bahasa jika tersedia
-  const voices = window.speechSynthesis.getVoices();
-  const voice = voices.find(v => v.lang.toLowerCase() === lang.toLowerCase())
-    || voices.find(v => v.lang.toLowerCase().startsWith(lang.split("-")[0].toLowerCase()));
-
-  if (voice) {
-    utterance.voice = voice;
-  }
-
-  window.speechSynthesis.speak(utterance);
+function kbGetJapanese(item) {
+  return item?.word ?? item?.reading ?? "";
 }
 
-// Membaca kosakata Jepang
-document.getElementById("speakJapanese").addEventListener("click", () => {
-  if (!deck.length) return;
+function kbGetIndonesian(item) {
+  return item?.meaning ?? "";
+}
 
-  const item = deck[index];
-  speakText(item.word, "ja-JP", 0.8);
-});
+function kbGetVoices() {
+  return ("speechSynthesis" in window)
+    ? window.speechSynthesis.getVoices()
+    : [];
+}
 
-// Membaca arti bahasa Indonesia
-document.getElementById("speakIndonesian").addEventListener("click", () => {
-  if (!deck.length) return;
+function kbSpeak(text, lang, rate = 0.85) {
+  return new Promise((resolve) => {
+    if (!("speechSynthesis" in window) || !text) {
+      resolve();
+      return;
+    }
 
-  const item = deck[index];
-  speakText(item.meaning, "id-ID", 0.9);
-});
+    const utterance = new SpeechSynthesisUtterance(String(text));
+    utterance.lang = lang;
+    utterance.rate = rate;
+    utterance.pitch = 1;
 
-// Menghentikan semua suara
-document.getElementById("stopVoice").addEventListener("click", () => {
+    const voices = kbGetVoices();
+    const language = lang.split("-")[0].toLowerCase();
+
+    const voice =
+      voices.find(v => v.lang.toLowerCase() === lang.toLowerCase()) ||
+      voices.find(v => v.lang.toLowerCase().startsWith(language));
+
+    if (voice) utterance.voice = voice;
+
+    utterance.onend = () => resolve();
+    utterance.onerror = () => resolve();
+
+    window.speechSynthesis.speak(utterance);
+  });
+}
+
+// Baca satu kartu: Jepang -> arti Indonesia
+async function kbSpeakBoth(item, runId = kbVoiceRunId) {
+  if (!item) return;
+
+  const japanese = kbGetJapanese(item);
+  const indonesian = kbGetIndonesian(item);
+
+  if (japanese) {
+    await kbSpeak(japanese, "ja-JP", 0.8);
+  }
+
+  if (runId !== kbVoiceRunId) return;
+
+  if (indonesian) {
+    await kbSpeak(indonesian, "id-ID", 0.9);
+  }
+}
+
+// Suara manual: Jepang saja
+async function kbSpeakJapanese() {
+  const item = kbGetCurrentItem();
+  if (!item) return;
+
+  kbVoiceRunId++;
+  const runId = kbVoiceRunId;
+
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
-});
 
+  await kbSpeak(kbGetJapanese(item), "ja-JP", 0.8);
+}
 
-function startAuto(direction) {
-  stopAuto();
+// Suara manual: arti Indonesia saja
+async function kbSpeakIndonesian() {
+  const item = kbGetCurrentItem();
+  if (!item) return;
 
-  if (!deck.length) return;
-
-  autoDirection = direction;
-
-  if (direction === 1) {
-    $("autoNextBtn").textContent = "⏸ Hentikan Next";
-  } else {
-    $("autoReverseBtn").textContent = "⏸ Hentikan Reverse";
+  kbVoiceRunId++;
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
   }
 
-  const seconds = Number($("intervalSelect").value) || 5;
+  await kbSpeak(kbGetIndonesian(item), "id-ID", 0.9);
+}
 
-  autoTimer = setInterval(() => {
-    if (direction === 1) {
-      if (index >= deck.length - 1) {
-        stopAuto();
-        return;
-      }
+function kbStopTimer() {
+  if (kbAutoTimer !== null) {
+    clearTimeout(kbAutoTimer);
+    kbAutoTimer = null;
+  }
+}
 
+function kbStopAuto() {
+  kbStopTimer();
+  kbAutoRunning = false;
+  kbAutoPaused = false;
+  kbAutoDirection = 0;
+  kbVoiceRunId++;
+
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  kbUpdateAutoButtons();
+}
+
+function kbUpdateAutoButtons() {
+  const nextBtn = kb$("autoNextBtn");
+  const reverseBtn = kb$("autoReverseBtn");
+  const pauseBtn = kb$("pauseAutoBtn");
+
+  if (nextBtn) {
+    nextBtn.textContent =
+      kbAutoRunning && kbAutoDirection === 1
+        ? "▶ Auto Next aktif"
+        : "▶ Auto Next";
+  }
+
+  if (reverseBtn) {
+    reverseBtn.textContent =
+      kbAutoRunning && kbAutoDirection === -1
+        ? "◀ Auto Reverse aktif"
+        : "◀ Auto Reverse";
+  }
+
+  if (pauseBtn) {
+    pauseBtn.textContent = kbAutoPaused
+      ? "▶ Lanjutkan"
+      : "⏸ Jeda";
+  }
+}
+
+// Interval dihitung setelah suara Jepang dan Indonesia selesai.
+function kbGetInterval() {
+  const select = kb$("intervalSelect");
+  const seconds = Number(select?.value || 5);
+  return Math.max(1, seconds) * 1000;
+}
+
+async function kbPlayAutoCard(runId) {
+  if (
+    !kbAutoRunning ||
+    kbAutoPaused ||
+    runId !== kbVoiceRunId
+  ) return;
+
+  const item = kbGetCurrentItem();
+  if (!item) {
+    kbStopAuto();
+    return;
+  }
+
+  await kbSpeakBoth(item, runId);
+
+  if (
+    !kbAutoRunning ||
+    kbAutoPaused ||
+    runId !== kbVoiceRunId
+  ) return;
+
+  // Tunggu sesuai interval setelah kedua suara selesai.
+  kbAutoTimer = setTimeout(() => {
+    kbAutoTimer = null;
+
+    if (
+      !kbAutoRunning ||
+      kbAutoPaused ||
+      runId !== kbVoiceRunId
+    ) return;
+
+    // Berhenti di ujung daftar, tidak mengulang otomatis.
+    if (
+      (kbAutoDirection === 1 && index >= deck.length - 1) ||
+      (kbAutoDirection === -1 && index <= 0)
+    ) {
+      kbStopAuto();
+      return;
+    }
+
+    if (kbAutoDirection === 1) {
       nextCard();
     } else {
-      if (index <= 0) {
-        stopAuto();
-        return;
-      }
-
       previousCard();
     }
-  }, seconds * 1000);
+
+    // Bacakan kartu yang baru ditampilkan.
+    kbPlayAutoCard(runId);
+  }, kbGetInterval());
 }
 
-$("speakBtn").addEventListener("click", speakJapanese);
+function kbStartAuto(direction) {
+  if (!Array.isArray(deck) || deck.length === 0) return;
 
-$("autoNextBtn").addEventListener("click", () => {
-  if (autoDirection === 1) {
-    stopAuto();
-  } else {
-    startAuto(1);
-  }
-});
+  // Jika mode dan arah sama sedang berjalan, jangan membuat timer baru.
+  if (
+    kbAutoRunning &&
+    !kbAutoPaused &&
+    kbAutoDirection === direction
+  ) return;
 
-$("autoReverseBtn").addEventListener("click", () => {
-  if (autoDirection === -1) {
-    stopAuto();
-  } else {
-    startAuto(-1);
-  }
-});
-
-$("pauseAutoBtn").addEventListener("click", () => {
-  if (autoTimer !== null) {
-    clearInterval(autoTimer);
-    autoTimer = null;
-    $("pauseAutoBtn").textContent = "▶ Lanjutkan";
-  } else if (autoDirection !== 0) {
-    const direction = autoDirection;
-    startAuto(direction);
-  }
-});
-
-// Hentikan otomatis saat mengganti halaman
-const originalSelectPage = selectPage;
-
-selectPage = function(page) {
-  stopAuto();
+  kbStopTimer();
 
   if ("speechSynthesis" in window) {
     window.speechSynthesis.cancel();
   }
 
-  originalSelectPage(page);
-};
+  kbVoiceRunId++;
+  kbAutoDirection = direction;
+  kbAutoRunning = true;
+  kbAutoPaused = false;
 
-// Ganti interval ketika pemutaran otomatis berjalan
-$("intervalSelect").addEventListener("change", () => {
-  if (autoDirection !== 0) {
-    const direction = autoDirection;
-    startAuto(direction);
+  kbUpdateAutoButtons();
+
+  // Langsung bacakan kartu saat ini, lalu bergerak otomatis.
+  kbPlayAutoCard(kbVoiceRunId);
+}
+
+function kbPauseAuto() {
+  if (!kbAutoRunning) return;
+
+  if (!kbAutoPaused) {
+    kbAutoPaused = true;
+    kbStopTimer();
+    kbVoiceRunId++;
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
+    }
+  } else {
+    // Lanjutkan dari kartu yang sedang terlihat.
+    kbAutoPaused = false;
+    kbVoiceRunId++;
+    kbPlayAutoCard(kbVoiceRunId);
   }
-});
 
+  kbUpdateAutoButtons();
+}
+
+// Hapus handler lama dengan mengganti properti onclick.
+// Jangan pertahankan event listener voice/auto lama.
+if (kb$("speakJapanese")) {
+  kb$("speakJapanese").onclick = kbSpeakJapanese;
+}
+
+if (kb$("speakIndonesian")) {
+  kb$("speakIndonesian").onclick = kbSpeakIndonesian;
+}
+
+if (kb$("stopVoice")) {
+  kb$("stopVoice").onclick = () => {
+    if (kbAutoRunning) {
+      kbStopAuto();
+    } else {
+      kbVoiceRunId++;
+      if ("speechSynthesis" in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+  };
+}
+
+// Mendukung tombol suara Jepang lama, jika masih digunakan.
+if (kb$("speakBtn")) {
+  kb$("speakBtn").onclick = kbSpeakJapanese;
+}
+
+if (kb$("autoNextBtn")) {
+  kb$("autoNextBtn").onclick = () => kbStartAuto(1);
+}
+
+if (kb$("autoReverseBtn")) {
+  kb$("autoReverseBtn").onclick = () => kbStartAuto(-1);
+}
+
+if (kb$("pauseAutoBtn")) {
+  kb$("pauseAutoBtn").onclick = kbPauseAuto;
+}
+
+// Mengubah interval saat auto-play berjalan akan berlaku
+// pada jeda berikutnya.
+if (kb$("intervalSelect")) {
+  kb$("intervalSelect").addEventListener("change", () => {
+    // Tidak perlu memulai timer baru; interval terbaru
+    // dibaca setiap kali kartu selesai dibacakan.
+  });
+}
+
+// Berhenti ketika memilih halaman lain.
+const kbOriginalSelectPage =
+  typeof selectPage === "function" ? selectPage : null;
+
+if (kbOriginalSelectPage && !window.kbSelectPageWrapped) {
+  window.kbSelectPageWrapped = true;
+
+  selectPage = function(page) {
+    kbStopAuto();
+    return kbOriginalSelectPage(page);
+  };
+}
+
+kbUpdateAutoButtons();
 
   
 }
