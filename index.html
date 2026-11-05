@@ -609,6 +609,55 @@ footer {
 }
 
   
+.voice-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin: 16px 0;
+}
+
+.voice-btn {
+  min-height: 52px;
+  padding: 12px 10px;
+  border: 1px solid #eadff2;
+  border-radius: 18px;
+  background: #fffafd;
+  color: #69577e;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.voice-btn:active {
+  transform: scale(.96);
+}
+
+.voice-btn.japanese {
+  background: #e0f3e9;
+  color: #426d59;
+}
+
+.voice-btn.indonesian {
+  background: #f4e8fb;
+  color: #70518b;
+}
+
+.voice-btn.stop {
+  grid-column: 1 / -1;
+  background: #fff0f2;
+  color: #9b596d;
+}
+
+@media (max-width: 380px) {
+  .voice-btn {
+    font-size: 12px;
+    padding: 10px 6px;
+  }
+}
+
+  
 </style>
 
 </head>
@@ -721,6 +770,20 @@ footer {
 </div>
 
       
+<div class="voice-controls">
+  <button id="speakJapanese" class="voice-btn japanese">
+    🔊 Suara Jepang
+  </button>
+
+  <button id="speakIndonesian" class="voice-btn indonesian">
+    🇮🇩 Suara Arti
+  </button>
+
+  <button id="stopVoice" class="voice-btn stop">
+    ⏹ Hentikan Suara
+  </button>
+</div>
+
 
       <button class="action-btn" id="previousBtn">← Kembali</button>
 
@@ -1847,25 +1910,61 @@ function stopAuto() {
   $("pauseAutoBtn").textContent = "⏸ Jeda";
 }
 
-function speakJapanese() {
-  if (!deck.length) return;
 
+function speakText(text, lang, rate = 0.85) {
   if (!("speechSynthesis" in window)) {
-    alert("Browser ini belum mendukung suara.");
+    alert("Browser ini belum mendukung fitur suara.");
     return;
   }
 
+  if (!text) {
+    alert("Teks belum tersedia untuk kartu ini.");
+    return;
+  }
+
+  // Hentikan suara sebelumnya
   window.speechSynthesis.cancel();
 
-  const item = deck[index];
-  const utterance = new SpeechSynthesisUtterance(item.word);
-
-  utterance.lang = "ja-JP";
-  utterance.rate = 0.8;
+  const utterance = new SpeechSynthesisUtterance(String(text));
+  utterance.lang = lang;
+  utterance.rate = rate;
   utterance.pitch = 1;
+
+  // Pilih suara sesuai bahasa jika tersedia
+  const voices = window.speechSynthesis.getVoices();
+  const voice = voices.find(v => v.lang.toLowerCase() === lang.toLowerCase())
+    || voices.find(v => v.lang.toLowerCase().startsWith(lang.split("-")[0].toLowerCase()));
+
+  if (voice) {
+    utterance.voice = voice;
+  }
 
   window.speechSynthesis.speak(utterance);
 }
+
+// Membaca kosakata Jepang
+document.getElementById("speakJapanese").addEventListener("click", () => {
+  if (!deck.length) return;
+
+  const item = deck[index];
+  speakText(item.word, "ja-JP", 0.8);
+});
+
+// Membaca arti bahasa Indonesia
+document.getElementById("speakIndonesian").addEventListener("click", () => {
+  if (!deck.length) return;
+
+  const item = deck[index];
+  speakText(item.meaning, "id-ID", 0.9);
+});
+
+// Menghentikan semua suara
+document.getElementById("stopVoice").addEventListener("click", () => {
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+});
+
 
 function startAuto(direction) {
   stopAuto();
