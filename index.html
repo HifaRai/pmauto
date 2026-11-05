@@ -1934,7 +1934,7 @@ function kbSpeak(text, lang, rate) {
     const utterance = new SpeechSynthesisUtterance(String(text));
 
     utterance.lang = lang;
-    utterance.rate = rate ?? (lang === "ja-JP" ? 0.72 : 0.88);
+    utterance.rate = rate ?? (lang === "ja-JP" ? 0.65 : 0.80);
     utterance.pitch = 1;
     utterance.volume = 1;
 
